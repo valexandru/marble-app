@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<info>
+    <id>marble</id>
+    <name>Marble</name>
+    <description>Marble Cloud</description>
+    <version>1.0</version>
+    <licence>AGPL</licence>
+    <author>Andrei Duma</author>
+    <require>5</require>
+</info>
