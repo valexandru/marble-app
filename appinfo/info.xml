@@ -2,7 +2,7 @@
 <info>
     <id>marble</id>
     <name>Marble</name>
-    <description>Marble Cloud</description>
+    <description>Marble App for syncing Marble data</description>
     <version>1.0</version>
     <licence>AGPL</licence>
     <author>Andrei Duma</author>
