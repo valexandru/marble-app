@@ -14,6 +14,9 @@ class DIContainer extends BaseContainer {
         // use this to specify the template directory
         // $this['TwigTemplateDirectory'] = __DIR__ . '/../templates';
 
+        /**
+         * CONTROLLERS
+         */
         $this['PageController'] = function($c){
             return new PageController($c['API'], $c['Request']);
         };
