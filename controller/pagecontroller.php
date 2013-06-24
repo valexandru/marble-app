@@ -8,7 +8,7 @@ use OCA\AppFramework\Controller\Controller;
 class PageController extends Controller {
 
 
-    public function __construct($api, $request){
+    public function __construct($api, $request) {
         parent::__construct($api, $request);
     }
 
@@ -18,7 +18,7 @@ class PageController extends Controller {
      * @IsAdminExemption
      * @IsSubAdminExemption
      */
-    public function index(){
+    public function index() {
         return $this->render('main');
     }
 
