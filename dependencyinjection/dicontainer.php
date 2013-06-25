@@ -5,6 +5,7 @@ namespace OCA\Marble\DependencyInjection;
 use \OCA\AppFramework\DependencyInjection\DIContainer as BaseContainer;
 
 use \OCA\Marble\Controller\PageController;
+use \OCA\Marble\Controller\APIController;
 use \OCA\Marble\Controller\RouteController;
 
 class DIContainer extends BaseContainer {
@@ -20,6 +21,10 @@ class DIContainer extends BaseContainer {
          */
         $this['PageController'] = $this->share(function($c) {
             return new PageController($c['API'], $c['Request']);
+        });
+
+        $this['APIController'] = $this->share(function($c) {
+            return new APIController($c['API'], $c['Request']);
         });
 
         $this['RouteController'] = $this->share(function($c) {
