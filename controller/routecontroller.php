@@ -11,6 +11,11 @@ class RouteController extends Controller {
         parent::__construct($api, $request);
     }
 
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+	 * @Ajax
+     */
     public function getAll() {
         $mapper = new RouteMapper($this->api);
         $userId = $this->api->getUserId();
