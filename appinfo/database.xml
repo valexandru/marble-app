@@ -7,7 +7,6 @@
     <table>
         <name>*dbprefix*marble_routes</name>
         <declaration>
-            <!--
             <field>
                 <name>id</name>
                 <type>integer</type>
@@ -16,7 +15,6 @@
                 <unsigned>true</unsigned>
                 <primary>true</primary>
             </field>
-            -->
             <field>
                 <name>user_id</name>
                 <type>text</type>
