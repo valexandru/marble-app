@@ -76,7 +76,7 @@ class RouteMapper extends Mapper {
             $route->getDuration()
         );
 
-        $this->execute($sql, $params);
+        return $this->execute($sql, $params);
     }
 
 }
