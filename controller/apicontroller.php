@@ -4,10 +4,10 @@ namespace OCA\Marble\Controller;
 
 use \OCA\AppFramework\Controller\Controller;
 use \OCA\AppFramework\Http\JSONResponse;
+use \OCA\AppFramework\Http\Http;
 use \OCA\Marble\Db\RouteMapper;
 use \OCA\Marble\Db\Route;
 
-use \OCA\AppFramework\Http\TextResponse;
 
 class APIController extends Controller {
 
@@ -41,25 +41,25 @@ class APIController extends Controller {
     public function routesCreate() {
         $mapper = new RouteMapper($this->api);
 
-        // Fields
-        $userId = $this->api->getUserId();
-        $timestamp = $this->params('timestamp');
-        $name = $this->params('name');
-        $distance = $this->params('distance');
-        $duration = $this->params('duration');
-
-        //try {
+        try {
             $mapper->save(new Route(array(
-            'user_id' => $userId,
-            'timestamp' => $timestamp,
-            'name' => $name,
-            'distance' => $distance,
-            'duration' => $duration
-        )));
-        //} catch (Exception $e) {
-            return new JSONResponse(array(), 400);
-        //}
-        //return new JSONResponse(array());
+                'user_id' => $this->api->getUserId(),
+                'timestamp' => $this->params('timestamp'),
+                'name' => $this->params('name'),
+                'distance' => $this->params('distance'),
+                'duration' => $this->params('duration')
+            )));
+
+            return new JSONResponse(array(
+                'data' => array(),
+                'status' => 'success'
+            ), Http::STATUS_CREATED);
+        } catch (\Exception $e) {
+            return new JSONResponse(array(
+                'data' => array(),
+                'status' => 'error'
+            ), Http::STATUS_CONFLICT);
+        }
     }
 
 }
