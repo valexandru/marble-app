@@ -14,8 +14,29 @@ $this->create('marble_index', '/')->get()->action(
     }
 );
 
+/**
+ * ROUTES
+ */
 $this->create('marble_routes_get_all', '/routes')->get()->action(
     function($params) {
         App::main('RouteController', 'getAll', $params, new DIContainer());
+    }
+);
+
+// TODO the rest. Doing the API for now. See below.
+
+/**
+ * API
+ */
+
+$this->create('marble_api_routes_get_all', '/api/v1/routes')->get()->action(
+    function($params) {
+        App::main('APIController', 'routesGetAll', $params, new DIContainer());
+    }
+);
+
+$this->create('marble_api_routes_create', '/api/v1/routes/create')->post()->action(
+    function($params) {
+        App::main('APIController', 'routesCreate', $params, new DIContainer());
     }
 );
