@@ -26,9 +26,8 @@ class APIController extends Controller {
         $mapper = new RouteMapper($this->api);
         $userId = $this->api->getUserId();
 
-        $routesList = $mapper->findAll($userId);
-        
-        return new JSONResponse($routesList);
+        $routes = $mapper->findAll($userId);
+        return new JSONResponse($routes);
     }
 
     /**
@@ -41,25 +40,12 @@ class APIController extends Controller {
     public function routesCreate() {
         $mapper = new RouteMapper($this->api);
 
-        try {
-            $mapper->save(new Route(array(
-                'user_id' => $this->api->getUserId(),
-                'timestamp' => $this->params('timestamp'),
-                'name' => $this->params('name'),
-                'distance' => $this->params('distance'),
-                'duration' => $this->params('duration')
-            )));
+        $params = $this->getParams();
+        $params['userId'] = $this->api->getUserId();
 
-            return new JSONResponse(array(
-                'data' => array(),
-                'status' => 'success'
-            ), Http::STATUS_CREATED);
-        } catch (\Exception $e) {
-            return new JSONResponse(array(
-                'data' => array(),
-                'status' => 'error'
-            ), Http::STATUS_CONFLICT);
-        }
+        $route = Route::fromParams($params);
+        $route = $mapper->insert($route);
+        return new JSONResponse(array(), Http::STATUS_CREATED);
     }
 
 }

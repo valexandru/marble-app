@@ -3,8 +3,9 @@
 namespace OCA\Marble\Db;
 
 use \OCA\AppFramework\Db\Entity;
+use \OCA\Marble\Db\IAPI;
 
-class Route extends Entity {
+class Route extends Entity implements IAPI {
 
     public $userId;
     public $timestamp;
@@ -17,6 +18,20 @@ class Route extends Entity {
         $this->addType('distance', 'int');
     }
 
+    public static function fromParams(array $params) {
+        $instance = new self();
+        try {
+            $instance->setUserId($params['userId']);
+            $instance->setTimestamp($params['timestamp']);
+            $instance->setName($params['name']);
+            $instance->setDuration($params['duration']);
+            $instance->setDistance($params['distance']);
+        } catch (\Exception $e) {
+            throw \Exception('Bad ROUTE parameters');
+        }
+        return $instance;
+    }
+
     public function toAPI() {
         return array(
             'timestamp' => $this->getTimestamp(),
@@ -25,4 +40,5 @@ class Route extends Entity {
             'distance' => $this->getDistance()
         );
     }
+
 }
