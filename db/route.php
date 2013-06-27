@@ -20,15 +20,13 @@ class Route extends Entity implements IAPI {
 
     public static function fromParams(array $params) {
         $instance = new self();
-        try {
-            $instance->setUserId($params['userId']);
-            $instance->setTimestamp($params['timestamp']);
-            $instance->setName($params['name']);
-            $instance->setDuration($params['duration']);
-            $instance->setDistance($params['distance']);
-        } catch (\Exception $e) {
-            throw \Exception('Bad ROUTE parameters');
-        }
+
+        $instance->setUserId($params['userId']);
+        $instance->setTimestamp($params['timestamp']);
+        $instance->setName($params['name']);
+        $instance->setDuration($params['duration']);
+        $instance->setDistance($params['distance']);
+
         return $instance;
     }
 
