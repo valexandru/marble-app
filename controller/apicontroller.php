@@ -61,4 +61,19 @@ class APIController extends Controller {
         return new JSONResponse(array(), Http::STATUS_OK);
     }
 
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     * @CSRFExemption
+     * @API
+     */
+    public function routesRename() {
+        $layer = new RouteBusinessLayer($this->api);
+print_r($this->getParams()); // debug
+        $layer->rename($this->getParams());
+
+        return new JSONResponse(array(), Http::STATUS_NO_CONTENT);
+    }
+
 }
