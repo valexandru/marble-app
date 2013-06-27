@@ -33,4 +33,9 @@ class RouteBusinessLayer extends BusinessLayer {
         $this->mapper->insert($route);
     }
 
+    public function delete($userId, $timestamp) {
+        $route = $this->mapper->find($userId, $timestamp);
+        $this->mapper->delete($route);
+    }
+
 }
