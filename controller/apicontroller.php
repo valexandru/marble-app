@@ -47,4 +47,18 @@ class APIController extends Controller {
         return new JSONResponse(array(), Http::STATUS_CREATED);
     }
 
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     * @CSRFExemption
+     * @API
+     */
+    public function routesDelete() {
+        $layer = new RouteBusinessLayer($this->api);
+        $layer->delete($this->api->getUserId(), $this->params('timestamp'));
+
+        return new JSONResponse(array(), Http::STATUS_OK);
+    }
+
 }
