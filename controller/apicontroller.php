@@ -5,8 +5,10 @@ namespace OCA\Marble\Controller;
 use \OCA\AppFramework\Controller\Controller;
 use \OCA\AppFramework\Http\JSONResponse;
 use \OCA\AppFramework\Http\Http;
+
 use \OCA\Marble\Db\RouteMapper;
 use \OCA\Marble\Db\Route;
+use \OCA\Marble\BusinessLayer\RouteBusinessLayer;
 
 
 class APIController extends Controller {
@@ -23,10 +25,11 @@ class APIController extends Controller {
      * @API
      */
     public function routesGetAll() {
-        $mapper = new RouteMapper($this->api);
+        $layer = new RouteBusinessLayer($this->api);
         $userId = $this->api->getUserId();
 
-        $routes = $mapper->findAll($userId);
+        $routes = $layer->findAll($userId);
+
         return new JSONResponse($routes);
     }
 
