@@ -41,13 +41,9 @@ class APIController extends Controller {
      * @API
      */
     public function routesCreate() {
-        $mapper = new RouteMapper($this->api);
+        $layer = new RouteBusinessLayer($this->api);
+        $layer->create($this->getParams());
 
-        $params = $this->getParams();
-        $params['userId'] = $this->api->getUserId();
-
-        $route = Route::fromParams($params);
-        $route = $mapper->insert($route);
         return new JSONResponse(array(), Http::STATUS_CREATED);
     }
 
