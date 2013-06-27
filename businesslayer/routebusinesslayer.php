@@ -34,8 +34,19 @@ class RouteBusinessLayer extends BusinessLayer {
     }
 
     public function delete($userId, $timestamp) {
+        #fixme don't pass $userId. get it from $this->api
         $route = $this->mapper->find($userId, $timestamp);
         $this->mapper->delete($route);
+    }
+
+    public function rename($params) {
+        $userId = $this->api->getUserId();
+        $timestamp = $params['timestamp'];
+
+        $route = $this->mapper->find($userId, $timestamp);
+        $route->setName($params['new_name']);
+
+        $this->mapper->update($route);
     }
 
 }
