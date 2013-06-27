@@ -46,3 +46,9 @@ $this->create('marble_api_routes_delete', '/api/v1/routes/delete/{timestamp}')->
         App::main('APIController', 'routesDelete', $params, new DIContainer());
     }
 );
+
+$this->create('marble_api_routes_rename', '/api/v1/routes/rename')->put()->action(
+    function($params) {
+        App::main('APIController', 'routesRename', $params, new DIContainer());
+    }
+);
