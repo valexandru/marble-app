@@ -5,8 +5,9 @@ namespace OCA\Marble\DependencyInjection;
 use \OCA\AppFramework\DependencyInjection\DIContainer as BaseContainer;
 
 use \OCA\Marble\Controller\PageController;
-use \OCA\Marble\Controller\APIController;
 use \OCA\Marble\Controller\RouteController;
+
+use \OCA\Marble\External\RouteAPI;
 
 class DIContainer extends BaseContainer {
 
@@ -16,6 +17,7 @@ class DIContainer extends BaseContainer {
         // use this to specify the template directory
         // $this['TwigTemplateDirectory'] = __DIR__ . '/../templates';
 
+
         /**
          * CONTROLLERS
          */
@@ -23,13 +25,18 @@ class DIContainer extends BaseContainer {
             return new PageController($c['API'], $c['Request']);
         });
 
-        $this['APIController'] = $this->share(function($c) {
-            return new APIController($c['API'], $c['Request']);
-        });
-
         $this['RouteController'] = $this->share(function($c) {
             return new RouteController($c['API'], $c['Request']);
         });
+
+
+        /**
+         * API
+         */
+        $this['RouteAPI'] = $this->share(function($c) {
+            return new RouteAPI($c['API'], $c['Request']);
+        });
+
 
     }
 

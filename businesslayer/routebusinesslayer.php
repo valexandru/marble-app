@@ -28,7 +28,7 @@ class RouteBusinessLayer extends BusinessLayer {
         $route = new Route();
         $route->setUserId($userId);
         $route->setTimestamp($timestamp);
-        $route->setName($timestamp);
+        $route->setName($name);
         $route->setDistance($distance);
         $route->setDuration($duration);
 
