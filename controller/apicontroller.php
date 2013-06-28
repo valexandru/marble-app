@@ -70,8 +70,12 @@ class APIController extends Controller {
      */
     public function routesRename() {
         $layer = new RouteBusinessLayer($this->api);
-print_r($this->getParams()); // debug
-        $layer->rename($this->getParams());
+
+        $userId = $this->api->getUserId();
+        $timestamp = $this->params('timestamp');
+        $newName = $this->params('newName');
+
+        $layer->rename($userId, $timestamp, $newName);
 
         return new JSONResponse(array(), Http::STATUS_NO_CONTENT);
     }

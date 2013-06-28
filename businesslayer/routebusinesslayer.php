@@ -23,28 +23,27 @@ class RouteBusinessLayer extends BusinessLayer {
         return $finalRoutes;
     }
 
-    public function create($params) {
-        $params['userId'] = $this->api->getUserId();
-
+    public function create($userId, $timestamp, $name, $distance, $duration) {
         // Build the Route
-        $route = Route::fromParams($params);
+        $route = new Route();
+        $route->setUserId($userId);
+        $route->setTimestamp($timestamp);
+        $route->setName($timestamp);
+        $route->setDistance($distance);
+        $route->setDuration($duration);
 
         // Insert it
         $this->mapper->insert($route);
     }
 
     public function delete($userId, $timestamp) {
-        #fixme don't pass $userId. get it from $this->api
         $route = $this->mapper->find($userId, $timestamp);
         $this->mapper->delete($route);
     }
 
-    public function rename($params) {
-        $userId = $this->api->getUserId();
-        $timestamp = $params['timestamp'];
-
+    public function rename($userId, $timestamp, $newName) {
         $route = $this->mapper->find($userId, $timestamp);
-        $route->setName($params['new_name']);
+        $route->setName($newName);
 
         $this->mapper->update($route);
     }
