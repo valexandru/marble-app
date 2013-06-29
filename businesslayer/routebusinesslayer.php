@@ -5,12 +5,15 @@ namespace OCA\Marble\BusinessLayer;
 use \OCA\Marble\Db\Route;
 use \OCA\Marble\Db\RouteMapper;
 
+use \OCA\AppFramework\Db\DoesNotExistException;
+
 class RouteBusinessLayer extends BusinessLayer {
 
     public function __construct($api) {
         parent::__construct($api, new RouteMapper($api));
     }
 
+    // TORENAME to getAll
     public function findAll($userId) {
         $routes = $this->mapper->findAll($userId);
 
@@ -33,12 +36,25 @@ class RouteBusinessLayer extends BusinessLayer {
         $route->setDuration($duration);
 
         // Insert it
-        $this->mapper->insert($route);
+        try {
+            $this->mapper->insert($route);
+        } catch (\PDOException $e) {
+            if ($e->getCode() == 23000) {
+                throw new BusinessLayerException('Duplicate route; ' .
+                    'a route with same timestamp already exists.');
+            }
+
+            throw new BusinessLayerException('Could not add route; unknown error.');
+        }
     }
 
     public function delete($userId, $timestamp) {
-        $route = $this->mapper->find($userId, $timestamp);
-        $this->mapper->delete($route);
+        try {
+            $route = $this->mapper->find($userId, $timestamp);
+            $this->mapper->delete($route);
+        } catch (DoesNotExistException $e) {
+            throw new BusinessLayerException('No matching route found; nothing deleted.');
+        }
     }
 
     public function rename($userId, $timestamp, $newName) {

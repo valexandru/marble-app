@@ -18,18 +18,6 @@ class Route extends Entity implements IAPI {
         $this->addType('distance', 'int');
     }
 
-    public static function fromParams(array $params) {
-        $instance = new self();
-
-        $instance->setUserId($params['userId']);
-        $instance->setTimestamp($params['timestamp']);
-        $instance->setName($params['name']);
-        $instance->setDuration($params['duration']);
-        $instance->setDistance($params['distance']);
-
-        return $instance;
-    }
-
     public function toAPI() {
         return array(
             'timestamp' => $this->getTimestamp(),
