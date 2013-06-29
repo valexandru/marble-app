@@ -3,8 +3,10 @@
 namespace OCA\Marble\External;
 
 use \OCA\AppFramework\Controller\Controller;
-use \OCA\AppFramework\Http\JSONResponse;
 use \OCA\AppFramework\Http\Http;
+use \OCA\AppFramework\Http\JSONResponse;
+
+use \OC\Files\View;
 
 // to remove
 use \OCA\Marble\Db\RouteMapper;
@@ -32,7 +34,32 @@ class RouteAPI extends Controller {
 
         $routes = $layer->findAll($userId);
 
-        return new JSONResponse($routes);
+        return new JSONResponse(array(
+            'data' => $routes,
+            'status' => 'success',
+            'msg' => ''
+        ), Http::STATUS_OK);
+    }
+
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     * @CSRFExemption
+     * @API
+     */
+    public function get() {
+        $userId = $this->api->getUserId();
+        $timestamp = $this->params('timestamp');
+
+        $view = new View('');
+        $kml = $view->file_get_contents($userId . '/marble/routes/' . $timestamp);
+
+        return new JSONResponse(array(
+            'data' => $kml,
+            'status' => 'success',
+            'msg' => ''
+        ), Http::STATUS_OK);
     }
 
     /**
@@ -50,9 +77,18 @@ class RouteAPI extends Controller {
         $name = $this->params('name');
         $distance = $this->params('distance');
         $duration = $this->params('duration');
-        
 
         $layer->create($userId, $timestamp, $name, $distance, $duration);
+
+
+        // Write the kml to file
+        $kml = $this->params('kml');
+
+        // TODO find a more elegant solution for this
+        // and make sure directory exists
+        $view = new View('');
+        $view->file_put_contents($userId . '/marble/routes/' . $timestamp, $kml);
+
 
         return new JSONResponse(array(), Http::STATUS_CREATED);
     }
@@ -87,7 +123,7 @@ class RouteAPI extends Controller {
 
         $layer->rename($userId, $timestamp, $newName);
 
-        return new JSONResponse(array(), Http::STATUS_NO_CONTENT);
+        return new JSONResponse(array(), Http::STATUS_OK);
     }
 
 }
