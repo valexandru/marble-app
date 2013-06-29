@@ -8,10 +8,6 @@ use \OCA\AppFramework\Http\JSONResponse;
 
 use \OC\Files\View;
 
-// to remove
-use \OCA\Marble\Db\RouteMapper;
-use \OCA\Marble\Db\Route;
-
 use \OCA\Marble\BusinessLayer\RouteBusinessLayer;
 
 
