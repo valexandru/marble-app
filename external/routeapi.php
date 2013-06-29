@@ -35,9 +35,8 @@ class RouteAPI extends Controller {
         $routes = $layer->findAll($userId);
 
         return new JSONResponse(array(
-            'data' => $routes,
             'status' => 'success',
-            'msg' => ''
+            'data' => $routes
         ), Http::STATUS_OK);
     }
 
@@ -56,9 +55,8 @@ class RouteAPI extends Controller {
         $kml = $view->file_get_contents($userId . '/marble/routes/' . $timestamp);
 
         return new JSONResponse(array(
-            'data' => $kml,
             'status' => 'success',
-            'msg' => ''
+            'data' => $kml
         ), Http::STATUS_OK);
     }
 
@@ -90,7 +88,9 @@ class RouteAPI extends Controller {
         $view->file_put_contents($userId . '/marble/routes/' . $timestamp, $kml);
 
 
-        return new JSONResponse(array(), Http::STATUS_CREATED);
+        return new JSONResponse(array(
+            'status' => 'success'
+        ), Http::STATUS_CREATED);
     }
 
     /**
@@ -104,7 +104,9 @@ class RouteAPI extends Controller {
         $layer = new RouteBusinessLayer($this->api);
         $layer->delete($this->api->getUserId(), $this->params('timestamp'));
 
-        return new JSONResponse(array(), Http::STATUS_OK);
+        return new JSONResponse(array(
+            'status' => 'success'
+        ), Http::STATUS_OK);
     }
 
     /**
@@ -123,7 +125,9 @@ class RouteAPI extends Controller {
 
         $layer->rename($userId, $timestamp, $newName);
 
-        return new JSONResponse(array(), Http::STATUS_OK);
+        return new JSONResponse(array(
+            'status' => 'success'
+        ), Http::STATUS_OK);
     }
 
 }
