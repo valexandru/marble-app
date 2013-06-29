@@ -37,6 +37,12 @@ $this->create('marble_api_routes_get_all', '/api/v1/routes')->get()->action(
     }
 );
 
+$this->create('marble_api_routes_get', '/api/v1/routes/{timestamp}')->get()->action(
+    function($params) {
+        App::main('RouteAPI', 'get', $params, new DIContainer());
+    }
+);
+
 $this->create('marble_api_routes_create', '/api/v1/routes/create')->post()->action(
     function($params) {
         App::main('RouteAPI', 'create', $params, new DIContainer());
