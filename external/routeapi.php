@@ -73,16 +73,9 @@ class RouteAPI extends Controller {
             $name = $this->params('name');
             $distance = $this->params('distance');
             $duration = $this->params('duration');
-
-            $layer->create($userId, $timestamp, $name, $distance, $duration);
-
-            // Write the kml to file
             $kml = $this->params('kml');
 
-            // TODO find a more elegant solution for this
-            // and make sure directory exists
-            $view = new View('');
-            $view->file_put_contents($userId . '/marble/routes/' . $timestamp, $kml);
+            $layer->create($userId, $timestamp, $name, $distance, $duration, $kml);
 
             return new JSONResponse(array(
                 'status' => 'success'
