@@ -31,15 +31,15 @@ $this->create('marble_routes_get_all', '/routes')->get()->action(
 /**
  * API
  */
-$this->create('marble_api_routes_get_all', '/api/v1/routes')->get()->action(
-    function($params) {
-        App::main('RouteAPI', 'getAll', $params, new DIContainer());
-    }
-);
-
 $this->create('marble_api_routes_get', '/api/v1/routes/{timestamp}')->get()->action(
     function($params) {
         App::main('RouteAPI', 'get', $params, new DIContainer());
+    }
+);
+
+$this->create('marble_api_routes_get_all', '/api/v1/routes')->get()->action(
+    function($params) {
+        App::main('RouteAPI', 'getAll', $params, new DIContainer());
     }
 );
 
