@@ -19,7 +19,7 @@ class RouteMapper extends Mapper {
      * @throws MultipleObjectsReturnedException if more than one route exists
      * @return Route the route
      */
-    public function find($userId, $timestamp) {
+    public function get($userId, $timestamp) {
         $sql = 'SELECT * FROM `' . $this->getTableName() .
             '` WHERE `user_id` = ? AND `timestamp` = ?';
         $params = array($userId, $timestamp);
@@ -30,7 +30,7 @@ class RouteMapper extends Mapper {
      * Returns an array containing all Routes owned by user_id
      * @return array the array of routes
      */
-    public function findAll($userId) {
+    public function getAll($userId) {
         $sql = 'SELECT * FROM `' . $this->getTableName() .
             '` WHERE `user_id` = ?';
         $params = array($userId);

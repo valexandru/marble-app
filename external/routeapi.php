@@ -6,8 +6,6 @@ use \OCA\AppFramework\Controller\Controller;
 use \OCA\AppFramework\Http\Http;
 use \OCA\AppFramework\Http\JSONResponse;
 
-use \OC\Files\View;
-
 use \OCA\Marble\BusinessLayer\RouteBusinessLayer;
 use \OCA\Marble\BusinessLayer\BusinessLayerException;
 
@@ -25,16 +23,25 @@ class RouteAPI extends Controller {
      * @CSRFExemption
      * @API
      */
-    public function getAll() {
+    public function get() {
         $layer = new RouteBusinessLayer($this->api);
+
         $userId = $this->api->getUserId();
+        $timestamp = $this->params('timestamp');
 
-        $routes = $layer->findAll($userId);
+        try {
+            $kml = $layer->get($userId, $timestamp);
 
-        return new JSONResponse(array(
-            'status' => 'success',
-            'data' => $routes
-        ), Http::STATUS_OK);
+            return new JSONResponse(array(
+                'status' => 'success',
+                'data' => $kml
+            ), Http::STATUS_OK);
+        } catch (BusinessLayerException $e) {
+            return new JSONResponse(array(
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
+        }
     }
 
     /**
@@ -44,16 +51,15 @@ class RouteAPI extends Controller {
      * @CSRFExemption
      * @API
      */
-    public function get() {
+    public function getAll() {
+        $layer = new RouteBusinessLayer($this->api);
         $userId = $this->api->getUserId();
-        $timestamp = $this->params('timestamp');
 
-        $view = new View('');
-        $kml = $view->file_get_contents($userId . '/marble/routes/' . $timestamp);
+        $routes = $layer->getAll($userId);
 
         return new JSONResponse(array(
             'status' => 'success',
-            'data' => $kml
+            'data' => $routes
         ), Http::STATUS_OK);
     }
 
@@ -126,11 +132,18 @@ class RouteAPI extends Controller {
         $timestamp = $this->params('timestamp');
         $newName = $this->params('newName');
 
-        $layer->rename($userId, $timestamp, $newName);
+        try {
+            $layer->rename($userId, $timestamp, $newName);
 
-        return new JSONResponse(array(
-            'status' => 'success'
-        ), Http::STATUS_OK);
+            return new JSONResponse(array(
+                'status' => 'success'
+            ), Http::STATUS_OK);
+        } catch (BusinessLayerException $e) {
+            return new JSONResponse(array(
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
+        }
     }
 
 }
