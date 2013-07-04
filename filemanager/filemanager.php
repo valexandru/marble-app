@@ -11,7 +11,7 @@ class FileManager {
 
         $contents = $view->file_get_contents($userId . '/' . $path);
         if (!$contents)
-            throw FileManagerException('Could not read from file.');
+            throw new FileManagerException('Could not read from file.');
 
         return $contents;
     }
@@ -27,7 +27,7 @@ class FileManager {
     public static function delete($userId, $path) {
         $view = new View('');
         if (!$r = $view->unlink($userId . '/' . $path))
-            throw FileManagerException('Could not delete the file.');
+            throw new FileManagerException('Could not delete the file.');
 
         return $r;
     }
