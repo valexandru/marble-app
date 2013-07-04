@@ -4,8 +4,8 @@ namespace OCA\Marble\BusinessLayer;
 
 use \OCA\Marble\Db\Route;
 use \OCA\Marble\Db\RouteMapper;
-
-use \OC\Files\View;
+use \OCA\Marble\FileManager\RouteManager;
+use \OCA\Marble\FileManager\FileManagerException;
 
 use \OCA\AppFramework\Db\DoesNotExistException;
 use \OCA\AppFramework\Db\MultipleObjectsReturnedException;
@@ -17,7 +17,11 @@ class RouteBusinessLayer extends BusinessLayer {
     }
 
     public function get($userId, $timestamp) {
-        return $this->readKml($userId, $timestamp);
+        try {
+            return RouteManager::read($userId, $timestamp);
+        } catch (FileManagerException $e) {
+            throw new BusinessLayerException($e->getMessage());
+        }
     }
 
     public function getAll($userId) {
@@ -42,17 +46,16 @@ class RouteBusinessLayer extends BusinessLayer {
 
         try {
             $this->mapper->insert($route);
-            $this->writeKml($userId, $timestamp, $kml);
-        } catch (BusinessLayerException $e) {
-            // TOFIX this ugliness
-            $this->mapper->delete($route);
-            throw $e;
+            RouteManager::write($userId, $timestamp, $kml);
         } catch (\PDOException $e) {
             if ($e->getCode() == 23000) {
                 throw new BusinessLayerException('Duplicate route; ' .
                     'a route with same timestamp already exists.');
             }
             throw new BusinessLayerException('Could not add route; unknown database error.');
+        } catch (FileManagerException $e) {
+            $this->mapper->delete($route);
+            throw new BusinessLayerException($e->getMessage());
         }
     }
 
@@ -60,12 +63,15 @@ class RouteBusinessLayer extends BusinessLayer {
         try {
             $route = $this->mapper->get($userId, $timestamp);
             $this->mapper->delete($route);
-            $this->deleteKml($userId, $timestamp);
+            RouteManager::delete($userId, $timestamp);
         } catch (DoesNotExistException $e) {
             throw new BusinessLayerException('No matching route found; nothing deleted.');
         } catch (MultipleObjectsReturnedException $e) {
             throw new BusinessLayerException('Multiple matching routes; nothing deleted.');
+        } catch (FileManagerException $e) {
+            throw new BusinessLayerException($e->getMessage());
         }
+
     }
 
     public function rename($userId, $timestamp, $newName) {
@@ -78,31 +84,6 @@ class RouteBusinessLayer extends BusinessLayer {
         } catch (MultipleObjectsReturnedException $e) {
             throw new BusinessLayerException('Multiple matching routes; nothing renamed.');
         }
-    }
-
-    /**
-     * PRIVATE
-     */
-    private function writeKml($userId, $timestamp, $kml) {
-        $view = new View('');
-        if (!$view->file_put_contents($userId . '/marble/routes/' . $timestamp, $kml))
-            throw new BusinessLayerException('Could not write the KML contents to file.');
-    }
-
-    private function readKml($userId, $timestamp) {
-        $view = new View('');
-
-        $kml = $view->file_get_contents($userId . '/marble/routes/' . $timestamp);
-        if (!$kml)
-            throw BusinessLayerException('Could not read KML contents from file.');
-
-        return $kml;
-    }
-
-    private function deleteKml($userId, $timestamp) {
-        $view = new View('');
-        if (!$view->unlink($userId . '/marble/routes/' . $timestamp))
-            throw BusinessLayerException('Could not delete the KML file.');
     }
 
 }
