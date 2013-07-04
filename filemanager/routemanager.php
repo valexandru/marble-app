@@ -1,6 +1,6 @@
 <?php
 
-namespace \OCA\Marble\FileManager;
+namespace OCA\Marble\FileManager;
 
 class RouteManager extends FileManager {
 
