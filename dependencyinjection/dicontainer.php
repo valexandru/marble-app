@@ -8,6 +8,7 @@ use \OCA\Marble\Controller\PageController;
 use \OCA\Marble\Controller\RouteController;
 
 use \OCA\Marble\External\RouteAPI;
+use \OCA\Marble\External\BookmarksAPI;
 
 class DIContainer extends BaseContainer {
 
@@ -37,6 +38,9 @@ class DIContainer extends BaseContainer {
             return new RouteAPI($c['API'], $c['Request']);
         });
 
+        $this['BookmarksAPI'] = $this->share(function($c) {
+            return new BookmarksAPI($c['API'], $c['Request']);
+        });
 
     }
 
