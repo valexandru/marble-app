@@ -87,3 +87,9 @@ $this->create('marble_api_bookmarks_update', '/api/v1/bookmarks/update')->put()-
         App::main('BookmarksAPI', 'update', $params, new DIContainer());
     }
 );
+
+$this->create('marble_api_bookmarks_timestamp', '/api/v1/bookmarks/timestamp')->get()->action(
+    function($params) {
+        App::main('BookmarksAPI', 'timestamp', $params, new DIContainer());
+    }
+);

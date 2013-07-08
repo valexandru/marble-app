@@ -32,4 +32,12 @@ class FileManager {
         return $r;
     }
 
+    public static function filemtime($userId, $path) {
+        $view = new View('');
+        if (!$mtime = $view->filemtime($userId . '/marble/' . $path))
+            throw new FileManagerException('Couldn\'t get the timestamp for file \'' . $path . '\'');
+
+        return $mtime;
+    }
+
 }

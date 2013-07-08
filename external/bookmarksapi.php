@@ -58,16 +58,40 @@ class BookmarksAPI extends Controller {
         $userId = $this->api->getUserId();
 
         try {
-            $layer->updateKML($userId, $bms);
-
             return new JSONResponse(array(
-                "status" => "success"
+                "status" => "success",
+                "data" => $layer->updateKML($userId, $bms)
             ), Http::STATUS_OK);
         } catch (BusinessLayerException $e) {
             return new JSONResponse(array(
                 "status" => "error",
                 "message" => $e->getMessage()
             ), Http::STATUS_INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     * @CSRFExemption
+     * @API
+     */
+    public function timestamp() {
+        $layer = new BookmarksBusinessLayer($this->api);
+
+        $userId = $this->api->getUserId();
+
+        try {
+            return new JSONResponse(array(
+                "status" => "success",
+                "data" => $layer->timestamp($userId)
+            ), Http::STATUS_OK);
+        } catch (BusinessLayerException $e) {
+            return new JSONResponse(array(
+                "status" => "error",
+                "message" => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
         }
     }
 

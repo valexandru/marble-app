@@ -20,4 +20,8 @@ class BookmarksManager extends FileManager {
         return parent::write($userId, 'bookmarks/json', $json);
     }
 
+    public static function timestamp($userId) {
+        return parent::filemtime($userId, 'bookmarks/kml');
+    }
+
 }

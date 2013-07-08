@@ -26,7 +26,17 @@ class BookmarksBusinessLayer extends BusinessLayer {
 
             BookmarksManager::writeKML($userId, $kml);
             BookmarksManager::writeJSON($userId, $json);
+
+            return BookmarksManager::timestamp($userId);
         } catch (\Exception $e) {
+            throw new BusinessLayerException($e->getMessage());
+        }
+    }
+
+    public function timestamp($userId) {
+        try {
+            return BookmarksManager::timestamp($userId);
+        } catch (FileManagerException $e) {
             throw new BusinessLayerException($e->getMessage());
         }
     }
