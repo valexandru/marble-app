@@ -4,6 +4,7 @@ namespace OCA\Marble\BusinessLayer;
 
 use \OCA\Marble\FileManager\BookmarksManager;
 use \OCA\Marble\FileManager\FileManagerException;
+use \OCA\Marble\Util\XML2Array;
 
 class BookmarksBusinessLayer extends BusinessLayer {
 
@@ -21,8 +22,11 @@ class BookmarksBusinessLayer extends BusinessLayer {
 
     public function updateKML($userId, $kml) {
         try {
-            return BookmarksManager::writeKML($userId, $kml);
-        } catch (FileManagerException $e) {
+            $json = json_encode(XML2Array::createArray($kml));
+
+            BookmarksManager::writeKML($userId, $kml);
+            BookmarksManager::writeJSON($userId, $json);
+        } catch (\Exception $e) {
             throw new BusinessLayerException($e->getMessage());
         }
     }
