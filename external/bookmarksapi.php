@@ -38,8 +38,6 @@ class BookmarksAPI extends Controller {
                 "message" => $e->getMessage()
             ), Http::STATUS_NOT_FOUND);
         }
-
-        return new TextResponse($kml);
     }
 
     /**
