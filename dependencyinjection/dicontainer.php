@@ -6,6 +6,7 @@ use \OCA\AppFramework\DependencyInjection\DIContainer as BaseContainer;
 
 use \OCA\Marble\Controller\PageController;
 use \OCA\Marble\Controller\RouteController;
+use \OCA\Marble\Controller\BookmarksController;
 
 use \OCA\Marble\External\RouteAPI;
 use \OCA\Marble\External\BookmarksAPI;
@@ -28,6 +29,10 @@ class DIContainer extends BaseContainer {
 
         $this['RouteController'] = $this->share(function($c) {
             return new RouteController($c['API'], $c['Request']);
+        });
+
+        $this['BookmarksController'] = $this->share(function($c) {
+            return new BookmarksController($c['API'], $c['Request']);
         });
 
 
