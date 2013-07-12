@@ -9,7 +9,7 @@ class ArrayToKml {
             '<kml xmlns="http://earth.google.com/kml/2.2" ' .
             'xmlns:gx="http://www.google.com/kml/ext/2.2">' .
             '<Document></Document></kml>';
-        $sxe = new SimpleXMLElement($baseKML);
+        $sxe = new \SimpleXMLElement($baseKML);
         $document = $sxe->Document;
 
         foreach ($array as $item) {
@@ -23,11 +23,11 @@ class ArrayToKml {
         }
 
         /* Format the output */
-        $dom = new DOMDocument('1.0');
+        $dom = new \DOMDocument('1.0');
         $dom->preserveWhiteSpace = false;
         $dom->formatOutput = true;
         $dom->loadXML($sxe->asXML());
-        echo $dom->saveXML();
+        return $dom->saveXML();
     }
 
     private static function arrayToFolder($array, &$folder) {

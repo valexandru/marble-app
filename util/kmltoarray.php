@@ -7,7 +7,12 @@ class KmlToArray {
     public static function toArray($kml) {
         $r = [];
 
-        $sxe = new SimpleXMLElement($kml);
+        try {
+            $sxe = new \SimpleXMLElement($kml);
+        } catch (\Exception $e) {
+            throw new \Exception('Could not convert to array; the provided KML is not valid XML');
+        }
+
         $Document = $sxe->Document;
 
         foreach ($Document->Folder as $f) {
