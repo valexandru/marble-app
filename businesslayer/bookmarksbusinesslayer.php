@@ -4,8 +4,8 @@ namespace OCA\Marble\BusinessLayer;
 
 use \OCA\Marble\FileManager\BookmarksManager;
 use \OCA\Marble\FileManager\FileManagerException;
-use \OCA\Marble\Util\XML2Array;
-use \OCA\Marble\Util\Array2XML;
+use \OCA\Marble\Util\KmlToArray;
+use \OCA\Marble\Util\ArrayToKml;
 
 class BookmarksBusinessLayer extends BusinessLayer {
 
@@ -31,7 +31,8 @@ class BookmarksBusinessLayer extends BusinessLayer {
 
     public function updateKML($userId, $kml) {
         try {
-            $json = json_encode(XML2Array::createArray($kml));
+            $array = KmlToArray::toArray($kml);
+            $json = json_encode($array);
 
             BookmarksManager::writeKML($userId, $kml);
             BookmarksManager::writeJSON($userId, $json);
@@ -45,8 +46,7 @@ class BookmarksBusinessLayer extends BusinessLayer {
     public function updateJSON($userId, $json) {
         try {
             $array = json_decode($json, true);
-            $kml = Array2XML::createXML('kml', $array['kml'])->saveXML();
-            // TODO: add namespaces
+            $kml = ArrayToKml::toKml($array);
 
             BookmarksManager::writeKML($userId, $kml);
             BookmarksManager::writeJSON($userId, $json);
