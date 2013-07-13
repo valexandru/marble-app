@@ -16,17 +16,19 @@ class DIContainer extends BaseContainer {
     public function __construct() {
         parent::__construct('marble');
 
-        // use this to specify the template directory
-        // $this['TwigTemplateDirectory'] = __DIR__ . '/../templates';
-
+        $this['TwigTemplateDirectory'] = __DIR__ . '/../templates';
 
         /**
-         * CONTROLLERS
+         * WEB INTERFACE
          */
         $this['PageController'] = $this->share(function($c) {
             return new PageController($c['API'], $c['Request']);
         });
 
+
+        /**
+         * CONTROLLERS
+         */
         $this['RouteController'] = $this->share(function($c) {
             return new RouteController($c['API'], $c['Request']);
         });
