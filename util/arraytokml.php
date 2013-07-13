@@ -49,8 +49,15 @@ class ArrayToKml {
         $placemark->addChild('name', $array['label']);
         $placemark->addChild('visibility', $array['visibility']);
         $placemark->addChild('description', $array['description']);
+
+        $placemark->addChild('ExtendedData');
+        $placemark->ExtendedData->addChild('Data');
+        $placemark->ExtendedData->Data->addAttribute('name', 'isBookmark');
+        $placemark->ExtendedData->Data->addChild('value', 'true');
+
         $placemark->addChild('Point');
         $placemark->Point->addChild('coordinates', $array['point_coordinates']);
+
         $placemark->addChild('LookAt');
         $placemark->LookAt->addChild('longitude', $array['lookat_longitude']);
         $placemark->LookAt->addChild('latitude', $array['lookat_latitude']);
