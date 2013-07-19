@@ -16,8 +16,6 @@ class DIContainer extends BaseContainer {
     public function __construct() {
         parent::__construct('marble');
 
-        $this['TwigTemplateDirectory'] = __DIR__ . '/../templates';
-
         /**
          * WEB INTERFACE
          */

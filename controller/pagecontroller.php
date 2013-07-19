@@ -12,7 +12,6 @@ class PageController extends Controller {
         parent::__construct($api, $request);
     }
 
-
     /**
      * @CSRFExemption
      * @IsAdminExemption
