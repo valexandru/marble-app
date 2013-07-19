@@ -63,4 +63,27 @@ class BookmarksController extends Controller {
         }
     }
 
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     */
+    public function timestamp() {
+        $layer = new BookmarksBusinessLayer($this->api);
+
+        $userId = $this->api->getUserId();
+
+        try {
+            return new JSONResponse(array(
+                "status" => "success",
+                "data" => $layer->timestamp($userId)
+            ), Http::STATUS_OK);
+        } catch (BusinessLayerException $e) {
+            return new JSONResponse(array(
+                "status" => "error",
+                "message" => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
+        }
+    }
+
 }

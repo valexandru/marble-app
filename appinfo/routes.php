@@ -26,10 +26,12 @@ $this->create('marble_routes_get_all', '/routes')->get()->action(
     }
 );
 
+// TODO the rest. Doing the API for now. See below.
+
 /**
  * BOOKMARKS
  */
-$this->create('marble_bookmarks_get', '/bookmarks/json')->get()->action(
+$this->create('marble_bookmarks_get', '/bookmarks')->get()->action(
     function($params) {
         App::main('BookmarksController', 'get', $params, new DIContainer());
     }
@@ -41,7 +43,11 @@ $this->create('marble_bookmarks_update', '/bookmarks/update')->post()->action(
     }
 );
 
-// TODO the rest. Doing the API for now. See below.
+$this->create('marble_bookmarks_timestamp', '/bookmarks/timestamp')->get()->action(
+    function($params) {
+        App::main('BookmarksController', 'timestamp', $params, new DIContainer());
+    }
+);
 
 /**
  * API
@@ -76,13 +82,13 @@ $this->create('marble_api_routes_rename', '/api/v1/routes/rename')->put()->actio
     }
 );
 
-$this->create('marble_api_bookmarks_get', '/api/v1/bookmarks/kml')->get()->action(
+$this->create('marble_api_bookmarks_get', '/api/v1/bookmarks')->get()->action(
     function($params) {
         App::main('BookmarksAPI', 'get', $params, new DIContainer());
     }
 );
 
-$this->create('marble_api_bookmarks_update', '/api/v1/bookmarks/update')->put()->action(
+$this->create('marble_api_bookmarks_update', '/api/v1/bookmarks/update')->post()->action(
     function($params) {
         App::main('BookmarksAPI', 'update', $params, new DIContainer());
     }
