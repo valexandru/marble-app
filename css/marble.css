@@ -1,0 +1,19 @@
+#marble-map {
+    width: 100%;
+}
+
+#marble-navigation {
+    border: none;
+    border-bottom: 1px solid #b7b7b7;
+    font-size: 110%;
+    padding: 1em 0 .5em;
+}
+
+#marble-navigation i {
+    padding: 0 .3em;
+}
+
+/* Fix for Firefox */
+.pure-u-3-4 {
+    width: 74.99%
+}

@@ -1,0 +1,17 @@
+<?xml version="1.0" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg xmlns="http://www.w3.org/2000/svg">
+<metadata>Copyright (C) 2012 by original authors @ fontello.com</metadata>
+<defs>
+<font id="marble-icons" horiz-adv-x="1000" >
+<font-face font-family="marble-icons" font-weight="400" font-stretch="normal" units-per-em="1000" ascent="850" descent="-150" />
+<missing-glyph horiz-adv-x="1000" />
+<glyph glyph-name="map-marker" unicode="&#xe805;" d="M429 493q0 59-42 101t-101 42-101-42-42-101 42-101 101-42 101 42 42 101z m143 0q0-61-18-100l-203-432q-9-18-27-29t-38-11-38 11-26 29l-204 432q-18 39-18 100 0 118 84 202t202 84 202-84 84-202z" horiz-adv-x="571.429" />
+<glyph glyph-name="road" unicode="&#xe800;" d="M620 294l0 2-13 179q-1 7-6 13t-13 5l-104 0q-7 0-13-5t-6-13l-13-179 0-2q-1-7 4-11t12-4l136 0q7 0 12 4t4 11z m424-261q0-41-26-41l-393 0q7 0 12 5t4 13l-11 143q-1 7-6 13t-13 5l-152 0q-7 0-13-5t-6-13l-11-143q-1-7 4-13t12-5l-393 0q-26 0-26 41 0 30 15 65l233 583q4 11 15 18t21 8l189 0q-7 0-13-5t-6-13l-8-107q-1-8 4-13t12-5l93 0q7 0 12 5t4 13l-8 107q-1 7-6 13t-13 5l189 0q11 0 21-8t15-18l233-583q15-35 15-65z" horiz-adv-x="1071.429" />
+<glyph glyph-name="compass" unicode="&#xe802;" d="M357 243l143 71-143 71 0-143z m214 330l0-302-286-143 0 302z m161-223q0 83-41 152t-110 110-152 41-152-41-110-110-41-152 41-152 110-110 152-41 152 41 110 110 41 152z m125 0q0-117-57-215t-156-156-215-57-215 57-156 156-57 215 57 215 156 156 215 57 215-57 156-156 57-215z" horiz-adv-x="857.143" />
+<glyph glyph-name="folder" unicode="&#xe803;" d="M929 511l0-393q0-51-37-88t-88-37l-679 0q-51 0-88 37t-37 88l0 536q0 51 37 88t88 37l179 0q51 0 88-37t37-88l0-18 375 0q51 0 88-37t37-88z" horiz-adv-x="928.571" />
+<glyph glyph-name="folder-open" unicode="&#xe804;" d="M1048 319q0-17-17-37l-187-221q-24-28-67-48t-80-20l-607 0q-19 0-34 7t-15 24q0 17 17 37l187 221q24 28 67 48t80 20l607 0q19 0 34-7t15-24z m-191 192l0-89-464 0q-52 0-110-27t-92-67l-188-221-3-3q0 2 0 7t0 7l0 536q0 51 37 88t88 37l179 0q51 0 88-37t37-88l0-18 304 0q51 0 88-37t37-88z" horiz-adv-x="1071.429" />
+<glyph glyph-name="pushpin" unicode="&#xe801;" d="M268 368l0 250q0 8-5 13t-13 5-13-5-5-13l0-250q0-8 5-13t13-5 13 5 5 13z m375-196q0-15-11-25t-25-11l-239 0-28-270q-1-7-6-11t-11-5l-1 0q-15 0-18 15l-42 271-225 0q-15 0-25 11t-11 25q0 69 44 124t99 55l0 286q-29 0-50 21t-21 50 21 50 50 21l357 0q29 0 50-21t21-50-21-50-50-21l0-286q55 0 99-55t44-124z" horiz-adv-x="642.857" />
+</font>
+</defs>
+</svg>
