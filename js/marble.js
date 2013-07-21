@@ -1,5 +1,26 @@
 var Marble = {};
 
+/**
+ * Define the data source and its methods
+ */
+Marble.Data = {
+    Routes: {
+        getAll: function(callback) {
+            $.getJSON("api/v1/routes", function(data) {
+                callback.call(undefined, {
+                    "routes": data.data
+                });
+            });
+        },
+        get: function(timestamp, callback) {
+            $.getJSON("api/v1/routes/" + timestamp, function(data) {
+                callback.call(undefined, data);
+            });
+        }
+    }
+};
+
+
 Marble.setSelectedNavEntry = function(page) {
     if (["home", "bookmarks", "routes", "tracks"].indexOf(page) < 0) {
         // if not among the options above...
@@ -35,6 +56,11 @@ Marble.Controller = {
         if (timestamp) {
             $("#marble-context").append("<p>Highlight " + timestamp + " and show on map.</p>");
         }
+        Marble.Data.Routes.getAll(function(data) {
+            var html = $("#marble-routes-template").html();
+            var template = Handlebars.compile(html);
+            $("#marble-context").html(template(data));
+        });
     },
     Tracks: function(timestamp) {
         Marble.setSelectedNavEntry("tracks");

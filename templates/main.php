@@ -10,6 +10,8 @@
 
 \OCP\Util::addScript('marble', 'router');
 
+\OCP\Util::addScript('marble', 'handlebars');
+
 \OCP\Util::addStyle('marble', 'marble');
 \OCP\Util::addScript('marble', 'marble');
 ?>
@@ -22,14 +24,21 @@
                 <li id="marble-nav-tracks"><a href="#/tracks/"><i class="icon-road"></i>Tracks</a></li>
             </ul>
         </div>
-        <div id="marble-context">
-            <ul>
-                <li>ceva</li>
-                <li>altceva</li>
-            </ul>
-        </div>
+        <div id="marble-context"></div>
     </div>
     <div id="marble-map-container" class="pure-u-3-4">
         <div id="marble-map"></div>
     </div>
 </div>
+
+<script id="marble-routes-template" type="text/x-handlebars-template">
+    <ul id="marble-routes">
+    {{#each routes}}
+        <li data-timestamp="{{timestamp}}">
+            <p>{{name}}</p>
+            <p>{{distance}} km</p>
+            <p>{{duration}} minutes</p>
+        </li>
+    {{/each}}
+    </ul>
+</script>
