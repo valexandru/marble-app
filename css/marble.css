@@ -17,3 +17,10 @@
 .pure-u-3-4 {
     width: 74.99%
 }
+
+/* temporary style for the routes list */
+#marble-routes > li {
+    border: 1px solid black;
+    margin: 3px;
+    padding: 3px;
+}
