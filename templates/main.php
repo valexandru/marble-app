@@ -38,6 +38,7 @@
             <p>{{name}}</p>
             <p>{{distance}} km</p>
             <p>{{duration}} minutes</p>
+            <button class="pure-button marble-route-delete">Delete</button>
         </li>
     {{/each}}
     </ul>

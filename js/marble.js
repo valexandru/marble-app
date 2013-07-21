@@ -16,6 +16,13 @@ Marble.Data = {
             $.getJSON("api/v1/routes/" + timestamp, function(data) {
                 callback.call(undefined, data);
             });
+        },
+        delete: function(timestamp, callback) {
+            $.ajax({
+                url: "api/v1/routes/delete/" + timestamp,
+                type: "DELETE",
+                success: callback
+            });
         }
     }
 };
@@ -52,14 +59,22 @@ Marble.Controller = {
     },
     Routes: function(timestamp) {
         Marble.setSelectedNavEntry("routes");
-        $("#marble-context").html("<p>DISPLAY ROUTES LIST HERE</p>");
-        if (timestamp) {
-            $("#marble-context").append("<p>Highlight " + timestamp + " and show on map.</p>");
-        }
         Marble.Data.Routes.getAll(function(data) {
+            /* load the template, compile it and include it */
             var html = $("#marble-routes-template").html();
             var template = Handlebars.compile(html);
             $("#marble-context").html(template(data));
+
+            /* add on-click events for the delete buttons on each route */
+            $("#marble-routes > li").each(function() {
+                var route = this;
+                var timestamp = $(route).data("timestamp");
+                $(route).find("button.marble-route-delete").click(function() {
+                    Marble.Data.Routes.delete(timestamp, function() {
+                        $(route).remove();
+                    });
+                });
+            });
         });
     },
     Tracks: function(timestamp) {
