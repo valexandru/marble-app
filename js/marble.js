@@ -67,7 +67,8 @@ Marble.Controller = {
             $("#marble-context").html(html);
 
             $("#marble-bookmarks").tree({
-                "data": data
+                data: data,
+                dragAndDrop: true
             });
         });
     },

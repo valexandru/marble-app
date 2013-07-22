@@ -98,7 +98,7 @@ ul.jqtree-tree li.jqtree-ghost span.jqtree-circle {
 }
 
 ul.jqtree-tree li.jqtree-ghost span.jqtree-line {
-    background-color: #0000ff;
+    background-color: #bbb;
     height: 2px;
     padding: 0;
     position: absolute;
@@ -116,10 +116,10 @@ ul.jqtree-tree span.jqtree-border {
     display: block;
     left: -2px;
     top: 0;
-    border: solid 2px #0000ff;
-    -webkit-border-radius: 6px;
-    -moz-border-radius: 6px;
-    border-radius: 6px;
+    border: solid 2px #ddd;
+    -webkit-border-radius: 4px;
+    -moz-border-radius: 4px;
+    border-radius: 4px;
     margin: 0;
 }
 
@@ -129,18 +129,11 @@ ul.jqtree-tree .jqtree-element {
     position: relative;
 }
 
-/*
 ul.jqtree-tree li.jqtree-selected > .jqtree-element,
 ul.jqtree-tree li.jqtree-selected > .jqtree-element:hover {
     background-color: #EEEEEE;
-    //background: -webkit-gradient(linear, left top, left bottom, from(#BEE0F5), to(#89AFCA));
-    //background: -moz-linear-gradient(top, #BEE0F5, #89AFCA);
-    //background: -ms-linear-gradient(top, #BEE0F5, #89AFCA);
-    //background: -o-linear-gradient(top, #BEE0F5, #89AFCA);
-    //text-shadow: 0 1px 0 rgba(255, 255, 255, 0.7);
 }
-*/
 
 ul.jqtree-tree .jqtree-moving > .jqtree-element .jqtree-title {
-    outline: dashed 1px #0000ff;
+    outline: dashed 1px #444;
 }
