@@ -27,7 +27,7 @@ Marble.Data = {
     },
     Bookmarks: {
         get: function(callback) {
-            $.getJSON("bookmarks", function(data) {
+            $.getJSON("bookmarks/json", function(data) {
                 callback.call(undefined, data.data);
             });
         }
