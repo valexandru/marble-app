@@ -24,6 +24,13 @@ Marble.Data = {
                 success: callback
             });
         }
+    },
+    Bookmarks: {
+        get: function(callback) {
+            $.getJSON("bookmarks", function(data) {
+                callback.call(undefined, data.data);
+            });
+        }
     }
 };
 
@@ -55,7 +62,14 @@ Marble.Controller = {
     },
     Bookmarks: function() {
         Marble.setSelectedNavEntry("bookmarks");
-        $("#marble-context").html("<p>DISPLAY BOOKMARKS TREE HERE</p>");
+        Marble.Data.Bookmarks.get(function(data) {
+            var html = $("#marble-bookmarks-template").html();
+            $("#marble-context").html(html);
+
+            $("#marble-bookmarks").tree({
+                "data": data
+            });
+        });
     },
     Routes: function(timestamp) {
         Marble.setSelectedNavEntry("routes");

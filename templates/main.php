@@ -12,6 +12,9 @@
 
 \OCP\Util::addScript('marble', 'handlebars');
 
+\OCP\Util::addScript('marble', 'tree.jquery');
+\OCP\Util::addStyle('marble', 'jqtree/jqtree');
+
 \OCP\Util::addStyle('marble', 'marble');
 \OCP\Util::addScript('marble', 'marble');
 ?>
@@ -42,4 +45,8 @@
         </li>
     {{/each}}
     </ul>
+</script>
+
+<script id="marble-bookmarks-template" type="text/x-handlebars-template">
+    <div id="marble-bookmarks"></div>
 </script>
