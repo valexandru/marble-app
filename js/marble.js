@@ -68,7 +68,13 @@ Marble.Controller = {
 
             $("#marble-bookmarks").tree({
                 data: data,
-                dragAndDrop: true
+                dragAndDrop: true,
+                onCanMoveTo: function(moved, target) {
+                    if (target.is_folder) {
+                        return true;
+                    }
+                    return false;
+                }
             });
         });
     },
