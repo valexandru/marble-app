@@ -795,8 +795,8 @@ limitations under the License.
       onLoadFailed: null,
       autoEscape: true,
       dataUrl: null,
-      closedIcon: '&#x25ba;',
-      openedIcon: '&#x25bc;',
+      closedIcon: '<i class="icon-folder"></i>',
+      openedIcon: '<i class="icon-folder-open"></i>',
       slide: true,
       nodeClass: Node
     };

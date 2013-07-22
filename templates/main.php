@@ -7,6 +7,7 @@
 \OCP\Util::addStyle('marble', 'pure/buttons-min');
 \OCP\Util::addStyle('marble', 'pure/grids-min');
 \OCP\Util::addStyle('marble', 'pure/menus-min');
+\OCP\Util::addStyle('marble', 'pure/base-context-min');
 
 \OCP\Util::addScript('marble', 'router');
 
@@ -48,5 +49,5 @@
 </script>
 
 <script id="marble-bookmarks-template" type="text/x-handlebars-template">
-    <div id="marble-bookmarks"></div>
+    <div id="marble-bookmarks" class="pure"></div>
 </script>
