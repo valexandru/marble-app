@@ -31,6 +31,7 @@ class KmlToArray {
 
         $r['label'] = (string) $folder->name;
         $r['visibility'] = (string) $folder->visibility;
+        $r['is_folder'] = true;
 
         foreach ($folder->Folder as $f) {
             $r['children'][] = self::folderToArray($f);
@@ -49,6 +50,7 @@ class KmlToArray {
         $r['label'] = (string) $placemark->name;
         $r['visibility'] = (string) $placemark->visibility;
         $r['description'] = (string) $placemark->description;
+        $r['is_folder'] = false;
 
         $r['point_coordinates'] = (string) $placemark->Point->coordinates;
 

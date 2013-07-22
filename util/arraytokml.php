@@ -13,7 +13,7 @@ class ArrayToKml {
         $document = $sxe->Document;
 
         foreach ($array as $item) {
-            if (isset($item['children'])) {
+            if ($item['is_folder']) {
                 $newFolder = $document->addChild('Folder');
                 self::arrayToFolder($item, $newFolder);
             } else {
@@ -35,7 +35,7 @@ class ArrayToKml {
         $folder->addChild('visibility', $array['visibility']);
 
         foreach ($array['children'] as $child) {
-            if (isset($child['children'])) {
+            if ($child['is_folder']) {
                 $newFolder = $folder->addChild('Folder');
                 self::arrayToFolder($child, $newFolder);
             } else {
