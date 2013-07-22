@@ -31,7 +31,7 @@ $this->create('marble_routes_get_all', '/routes')->get()->action(
 /**
  * BOOKMARKS
  */
-$this->create('marble_bookmarks_get', '/bookmarks')->get()->action(
+$this->create('marble_bookmarks_get', '/bookmarks/json')->get()->action(
     function($params) {
         App::main('BookmarksController', 'get', $params, new DIContainer());
     }
@@ -82,7 +82,7 @@ $this->create('marble_api_routes_rename', '/api/v1/routes/rename')->put()->actio
     }
 );
 
-$this->create('marble_api_bookmarks_get', '/api/v1/bookmarks')->get()->action(
+$this->create('marble_api_bookmarks_get', '/api/v1/bookmarks/kml')->get()->action(
     function($params) {
         App::main('BookmarksAPI', 'get', $params, new DIContainer());
     }
