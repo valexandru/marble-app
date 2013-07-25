@@ -2,6 +2,13 @@
     width: 100%;
 }
 
+#marble-home-indicator {
+    font-size: 110%;
+    margin-left: 1.8em;
+    margin-top: 1.3em;
+    color: #777;
+}
+
 #marble-navigation {
     border: none;
     border-bottom: 1px solid #b7b7b7;

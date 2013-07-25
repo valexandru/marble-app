@@ -10,7 +10,7 @@
 \OCP\Util::addStyle('marble', 'pure/base-context-min');
 
 \OCP\Util::addScript('marble', 'router');
-
+\OCP\Util::addScript('marble', 'transitional');
 \OCP\Util::addScript('marble', 'handlebars');
 
 \OCP\Util::addScript('marble', 'tree.jquery');
@@ -35,6 +35,9 @@
     </div>
 </div>
 
+<script id="marble-home-template" type="text/x-handlebars-template">
+    <div id="marble-home-indicator" class="pure"><i class="icon-up-dir"></i>Choose a category from the menu</div>
+</script>
 <script id="marble-routes-template" type="text/x-handlebars-template">
     <ul id="marble-routes">
     {{#each routes}}

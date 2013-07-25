@@ -58,7 +58,8 @@ Marble.setSelectedNavEntry = function(page) {
 Marble.Controller = {
     Home: function() {
         Marble.setSelectedNavEntry("home");
-        $("#marble-context").html("<p>HOME!</p>");
+        var html = $("#marble-home-template").html();
+        $("#marble-context").html(html);
     },
     Bookmarks: function() {
         Marble.setSelectedNavEntry("bookmarks");

@@ -2,6 +2,7 @@
   "name": "marble-icons",
   "css_prefix_text": "icon-",
   "css_use_suffix": false,
+  "hinting": true,
   "glyphs": [
     {
       "uid": "5b0772e9484a1a11646793a82edd622a",
@@ -31,6 +32,12 @@
       "uid": "c95735c17a10af81448c7fed98a04546",
       "css": "folder-open",
       "code": 59396,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "80cd1022bd9ea151d554bec1fa05f2de",
+      "css": "up-dir",
+      "code": 59398,
       "src": "fontawesome"
     },
     {

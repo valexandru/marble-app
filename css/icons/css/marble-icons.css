@@ -1,10 +1,10 @@
 @font-face {
   font-family: 'marble-icons';
-  src: url('%appswebroot%/marble/css/icons/font/marble-icons.eot?6985737');
-  src: url('%appswebroot%/marble/css/icons/font/marble-icons.eot?6985737#iefix') format('embedded-opentype'),
-       url('%appswebroot%/marble/css/icons/font/marble-icons.woff?6985737') format('woff'),
-       url('%appswebroot%/marble/css/icons/font/marble-icons.ttf?6985737') format('truetype'),
-       url('%appswebroot%/marble/css/icons/font/marble-icons.svg?6985737#marble-icons') format('svg');
+  src: url('%appswebroot%/marble/css/icons/font/marble-icons.eot?50842403');
+  src: url('%appswebroot%/marble/css/icons/font/marble-icons.eot?50842403#iefix') format('embedded-opentype'),
+       url('%appswebroot%/marble/css/icons/font/marble-icons.woff?50842403') format('woff'),
+       url('%appswebroot%/marble/css/icons/font/marble-icons.ttf?50842403') format('truetype'),
+       url('%appswebroot%/marble/css/icons/font/marble-icons.svg?50842403#marble-icons') format('svg');
   font-weight: normal;
   font-style: normal;
 }
@@ -14,7 +14,7 @@
 @media screen and (-webkit-min-device-pixel-ratio:0) {
   @font-face {
     font-family: 'marble-icons';
-    src: url('../font/marble-icons.svg?6985737#marble-icons') format('svg');
+    src: url('../font/marble-icons.svg?50842403#marble-icons') format('svg');
   }
 }
 */
@@ -50,6 +50,7 @@
   /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
 }
  
+.icon-up-dir:before { content: '\e806'; } /* '' */
 .icon-map-marker:before { content: '\e805'; } /* '' */
 .icon-road:before { content: '\e800'; } /* '' */
 .icon-compass:before { content: '\e802'; } /* '' */

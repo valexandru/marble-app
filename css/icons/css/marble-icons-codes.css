@@ -1,4 +1,5 @@
 
+.icon-up-dir:before { content: '\e806'; } /* '' */
 .icon-map-marker:before { content: '\e805'; } /* '' */
 .icon-road:before { content: '\e800'; } /* '' */
 .icon-compass:before { content: '\e802'; } /* '' */
