@@ -108,7 +108,7 @@ Marble.Controller = {
 /**
  * Use the Router object
  */
-Marble.Router = Router;
+Marble.Router = new Router();
 
 Marble.Router.routes(
     /^#\/$/, Marble.Controller.Home,
