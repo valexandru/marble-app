@@ -23,9 +23,9 @@
     <div class="pure-u-1-4">
         <div id="marble-navigation" class="pure-menu pure-menu-open">
             <ul>
-                <li id="marble-nav-bookmarks"><a href="#/bookmarks/"><i class="icon-pushpin"></i>Bookmarks</a></li>
-                <li id="marble-nav-routes"><a href="#/routes/"><i class="icon-compass"></i>Routes</a></li>
-                <li id="marble-nav-tracks"><a href="#/tracks/"><i class="icon-road"></i>Tracks</a></li>
+                <li><a id="marble-nav-bookmarks" href="#/bookmarks/"><i class="icon-pushpin"></i>Bookmarks</a></li>
+                <li><a id="marble-nav-routes" href="#/routes/"><i class="icon-compass"></i>Routes</a></li>
+                <li><a id="marble-nav-tracks" href="#/tracks/"><i class="icon-road"></i>Tracks</a></li>
             </ul>
         </div>
         <div id="marble-context"></div>
