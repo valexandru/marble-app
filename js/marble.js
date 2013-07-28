@@ -51,6 +51,53 @@ Marble.Data = {
     }
 };
 
+/**
+ * Setup controllers (TO REMOVE)
+ */
+Marble.Controller = {
+    Bookmarks: function() {
+        Marble.setSelectedNavEntry("bookmarks");
+        Marble.Data.Bookmarks.get(function(data) {
+            var html = $("#marble-bookmarks-template").html();
+            $("#marble-context").html(html);
+
+            $("#marble-bookmarks").tree({
+                data: data,
+                dragAndDrop: true,
+                onCanMoveTo: function(moved, target) {
+                    if (target.is_folder) {
+                        return true;
+                    }
+                    return false;
+                }
+            });
+        });
+    }
+};
+
+Marble.setupMap = function() {
+    function scaleMap() {
+        $("#marble-map").height($("#content").height());
+    }
+
+    scaleMap();
+
+    /**
+     * When window is resized:
+     */
+    $(window).on('resize', function() {
+        scaleMap();
+    });
+
+    // create a map in the #map div, set the view to a given place and zoom
+    var map = L.map('marble-map').setView([45, 10], 2);
+
+    // add an OpenStreetMap tile layer
+    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
+        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+    }).addTo(map);
+};
+
 /* Marble State Engine */
 Marble.Engine = new Transitional({
     data: {},
@@ -79,18 +126,21 @@ Marble.Engine = new Transitional({
         /* On document ready */
         $(function() {
             /* Setup the menu */
-            $("#marble-nav-bookmarks").click(function(event) {
+            $("#marble-nav-bookmarks a").click(function(event) {
                 event.preventDefault();
                 engine.push("bookmarks");
             });
-            $("#marble-nav-routes").click(function(event) {
+            $("#marble-nav-routes a").click(function(event) {
                 event.preventDefault();
                 engine.push("route_list");
             });
-            $("#marble-nav-tracks").click(function(event) {
+            $("#marble-nav-tracks a").click(function(event) {
                 event.preventDefault();
                 engine.push("track_list");
             });
+
+            /* Setup the map */
+            Marble.setupMap();
         });
     },
     rules: {
@@ -128,66 +178,3 @@ Marble.Engine = new Transitional({
     }
 });
 
-/**
- * Setup controllers
- */
-Marble.Controller = {
-    Home: function() {
-        //done
-    },
-    Bookmarks: function() {
-        Marble.setSelectedNavEntry("bookmarks");
-        Marble.Data.Bookmarks.get(function(data) {
-            var html = $("#marble-bookmarks-template").html();
-            $("#marble-context").html(html);
-
-            $("#marble-bookmarks").tree({
-                data: data,
-                dragAndDrop: true,
-                onCanMoveTo: function(moved, target) {
-                    if (target.is_folder) {
-                        return true;
-                    }
-                    return false;
-                }
-            });
-        });
-    },
-    Routes: function(timestamp) {
-        //done
-    },
-    Tracks: function(timestamp) {
-        Marble.setSelectedNavEntry("tracks");
-        $("#marble-context").html("<p>DISPLAY TRACKS LIST HERE</p>");
-    }
-};
-
-
-/**
- * Sets the #map div to full height
- */
-Marble.setMapSize = function() {
-    $("#marble-map").height($("#content").height());
-};
-
-/**
- * When document is ready:
- */
-$(function() {
-    Marble.setMapSize();
-
-    // create a map in the #map div, set the view to a given place and zoom
-    var map = L.map('marble-map').setView([45, 10], 5);
-
-    // add an OpenStreetMap tile layer
-    L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
-        attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
-});
-
-/**
- * When window is resized:
- */
-$(window).on('resize', function() {
-    Marble.setMapSize();
-});
