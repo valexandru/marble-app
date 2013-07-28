@@ -18,7 +18,15 @@ class RouteBusinessLayer extends BusinessLayer {
 
     public function get($userId, $timestamp) {
         try {
-            return RouteManager::read($userId, $timestamp);
+            return RouteManager::readKML($userId, $timestamp);
+        } catch (FileManagerException $e) {
+            throw new BusinessLayerException($e->getMessage());
+        }
+    }
+
+    public function getPreview($userId, $timestamp) {
+        try {
+            return RouteManager::readPreview($userId, $timestamp);
         } catch (FileManagerException $e) {
             throw new BusinessLayerException($e->getMessage());
         }
@@ -36,7 +44,7 @@ class RouteBusinessLayer extends BusinessLayer {
         return $finalRoutes;
     }
 
-    public function create($userId, $timestamp, $name, $distance, $duration, $kml) {
+    public function create($userId, $timestamp, $name, $distance, $duration, $kml, $preview) {
         $route = new Route();
         $route->setUserId($userId);
         $route->setTimestamp($timestamp);
@@ -46,7 +54,8 @@ class RouteBusinessLayer extends BusinessLayer {
 
         try {
             $this->mapper->insert($route);
-            RouteManager::write($userId, $timestamp, $kml);
+            RouteManager::writeKML($userId, $timestamp, $kml);
+            RouteManager::writePreview($userId, $timestamp, $preview);
         } catch (\PDOException $e) {
             if ($e->getCode() == 23000) {
                 throw new BusinessLayerException('Duplicate route; ' .
@@ -63,7 +72,8 @@ class RouteBusinessLayer extends BusinessLayer {
         try {
             $route = $this->mapper->get($userId, $timestamp);
             $this->mapper->delete($route);
-            RouteManager::delete($userId, $timestamp);
+            RouteManager::deleteKML($userId, $timestamp);
+            RouteManager::deletePreview($userId, $timestamp);
         } catch (DoesNotExistException $e) {
             throw new BusinessLayerException('No matching route found; nothing deleted.');
         } catch (MultipleObjectsReturnedException $e) {

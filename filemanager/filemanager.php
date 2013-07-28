@@ -51,6 +51,8 @@ class FileManager {
         if (!self::$view->is_dir($userId . '/marble')) {
             if (!self::$view->mkdir($userId . '/marble') ||
                 !self::$view->mkdir($userId . '/marble/routes') ||
+                !self::$view->mkdir($userId . '/marble/routes/kml') ||
+                !self::$view->mkdir($userId . '/marble/routes/preview') ||
                 !self::$view->mkdir($userId . '/marble/bookmarks')) {
                 throw new FileManagerException('Couldn\'t setup Marble directories');
             }

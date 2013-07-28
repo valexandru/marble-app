@@ -58,6 +58,12 @@ $this->create('marble_api_routes_get', '/api/v1/routes/{timestamp}')->get()->act
     }
 );
 
+$this->create('marble_api_routes_get_preview', '/api/v1/routes/preview/{timestamp}')->get()->action(
+    function($params) {
+        App::main('RouteAPI', 'getPreview', $params, new DIContainer());
+    }
+);
+
 $this->create('marble_api_routes_get_all', '/api/v1/routes')->get()->action(
     function($params) {
         App::main('RouteAPI', 'getAll', $params, new DIContainer());
@@ -81,6 +87,8 @@ $this->create('marble_api_routes_rename', '/api/v1/routes/rename')->put()->actio
         App::main('RouteAPI', 'rename', $params, new DIContainer());
     }
 );
+
+
 
 $this->create('marble_api_bookmarks_get', '/api/v1/bookmarks/kml')->get()->action(
     function($params) {

@@ -5,6 +5,7 @@ namespace OCA\Marble\External;
 use \OCA\AppFramework\Controller\Controller;
 use \OCA\AppFramework\Http\Http;
 use \OCA\AppFramework\Http\JSONResponse;
+use \OCA\AppFramework\Http\TextResponse;
 
 use \OCA\Marble\BusinessLayer\RouteBusinessLayer;
 use \OCA\Marble\BusinessLayer\BusinessLayerException;
@@ -32,10 +33,32 @@ class RouteAPI extends Controller {
         try {
             $kml = $layer->get($userId, $timestamp);
 
+            return new TextResponse($kml);
+        } catch (BusinessLayerException $e) {
             return new JSONResponse(array(
-                'status' => 'success',
-                'data' => $kml
-            ), Http::STATUS_OK);
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
+        }
+    }
+
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     * @CSRFExemption
+     * @API
+     */
+    public function getPreview() {
+        $layer = new RouteBusinessLayer($this->api);
+
+        $userId = $this->api->getUserId();
+        $timestamp = $this->params('timestamp');
+
+        try {
+            $preview = $layer->getPreview($userId, $timestamp);
+
+            return new TextResponse($preview);
         } catch (BusinessLayerException $e) {
             return new JSONResponse(array(
                 'status' => 'error',
@@ -79,9 +102,14 @@ class RouteAPI extends Controller {
             $name = $this->params('name');
             $distance = $this->params('distance');
             $duration = $this->params('duration');
-            $kml = $this->params('kml');
 
-            $layer->create($userId, $timestamp, $name, $distance, $duration, $kml);
+            $kml_file = $this->getUploadedFile('kml');
+            $kml = file_get_contents($kml_file['tmp_name']);
+
+            $preview_file = $this->getUploadedFile('preview');
+            $preview = file_get_contents($preview_file['tmp_name']);
+
+            $layer->create($userId, $timestamp, $name, $distance, $duration, $kml, $preview);
 
             return new JSONResponse(array(
                 'status' => 'success'
