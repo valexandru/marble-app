@@ -38,19 +38,33 @@
 <script id="marble-home-template" type="text/x-handlebars-template">
     <div id="marble-home-indicator" class="pure"><i class="icon-up-dir"></i>Choose a category from the menu</div>
 </script>
-<script id="marble-routes-template" type="text/x-handlebars-template">
+
+<script id="marble-route-list-template" type="text/x-handlebars-template">
     <ul id="marble-routes">
     {{#each routes}}
-        <li data-timestamp="{{timestamp}}">
-            <p>{{name}}</p>
-            <p>{{distance}} km</p>
-            <p>{{duration}} minutes</p>
-            <button class="pure-button marble-route-delete">Delete</button>
-        </li>
+        {{>route}}
     {{/each}}
     </ul>
 </script>
 
+<script id="marble-route-template" type="text/x-handlebars-template">
+    <li data-timestamp="{{timestamp}}">
+        <p>{{name}}</p>
+        <p>{{distance}} km</p>
+        <p>{{duration}} minutes</p>
+    </li>
+</script>
+
+<script id="marble-route-selected-template" type="text/x-handlebars-template">
+    <li data-timestamp="{{timestamp}}">
+        <p>{{name}}</p>
+        <p>{{distance}} km</p>
+        <p>{{duration}} minutes</p>
+        <button class="pure-button marble-route-delete">Delete</button>
+        <button class="pure-button marble-route-edit">Edit</button>
+    </li>
+</script>
+    
 <script id="marble-bookmarks-template" type="text/x-handlebars-template">
     <div id="marble-bookmarks" class="pure"></div>
 </script>
