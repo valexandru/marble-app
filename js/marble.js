@@ -20,28 +20,59 @@ Marble.setSelectedNavEntry = function(page) {
 /**
  * Define the data source and its methods
  */
-Marble.Data = {
-    Routes: {
-        getAll: function(callback) {
-            $.getJSON("api/v1/routes", function(data) {
-                callback.call(undefined, {
-                    "routes": data.data
+Marble.Data = {};
+Marble.Data.Routes = (function() {
+    var Cache = {};
+    Cache.List = null;
+    Cache.KML = {};
+    Cache.Details = {};
+
+    return {
+        getList: function(callback, noCache) {
+            noCache = (noCache !== undefined) && noCache;
+            if (Cache.List && noCache === false) {
+                callback.call(undefined, Cache.List);
+            } else {
+                $.getJSON("api/v1/routes", function(jsonData) {
+                    var data = jsonData.data;
+                    Cache.List = {"routes": data};
+                    for (var i=0, len=data.length; i<len; i++) {
+                        Cache.Details[data[i].timestamp] = data[i];
+                    }
+                    callback.call(undefined, Cache.List);
                 });
-            });
+            }
         },
-        get: function(timestamp, callback) {
-            $.getJSON("api/v1/routes/" + timestamp, function(data) {
-                callback.call(undefined, data);
-            });
+        getDetails: function(timestamp, callback, noCache) {
+            noCache = (noCache !== undefined) && noCache;
+            if (Cache.List && noCache === false) {
+                callback.call(undefined, Cache.Details[timestamp]);
+            } else {
+                $.getJSON("api/v1/routes", function(jsonData) {
+                    var data = jsonData.data;
+                    Cache.List = {"routes": data};
+                    for (var i=0, len=data.length; i<len; i++) {
+                        Cache.Details[data[i].timestamp] = data[i];
+                    }
+                    callback.call(undefined, Cache.Details[timestamp]);
+                });
+            }
         },
-        delete: function(timestamp, callback) {
-            $.ajax({
-                url: "api/v1/routes/delete/" + timestamp,
-                type: "DELETE",
-                success: callback
-            });
+        getKML: function(timestamp, callback) {
+            if (Cache.KML[timestamp]) {
+                callback.call(undefined, Cache.KML[timestamp]);
+            } else {
+                $.get("api/v1/routes/" + timestamp, function(kml) {
+                    Cache.KML[timestamp] = kml;
+                    callback.call(undefined, kml);
+                }, "xml");
+            }
         }
-    },
+    };
+})();
+
+/*
+Marble.Data = {
     Bookmarks: {
         get: function(callback) {
             $.getJSON("bookmarks/json", function(data) {
@@ -50,10 +81,12 @@ Marble.Data = {
         }
     }
 };
+*/
 
 /**
  * Setup controllers (TO REMOVE)
  */
+/*
 Marble.Controller = {
     Bookmarks: function() {
         Marble.setSelectedNavEntry("bookmarks");
@@ -74,6 +107,7 @@ Marble.Controller = {
         });
     }
 };
+*/
 
 Marble.setupMap = function() {
     function scaleMap() {
@@ -163,7 +197,7 @@ Marble.Engine = new Transitional({
 
             Marble.setSelectedNavEntry("routes");
 
-            Marble.Data.Routes.getAll(function(data) {
+            Marble.Data.Routes.getList(function(data) {
                 /* load the template, compile it and include it */
                 var html = $("#marble-route-list-template").html();
                 var template = Handlebars.compile(html);
