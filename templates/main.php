@@ -56,7 +56,7 @@
 </script>
 
 <script id="marble-route-selected-template" type="text/x-handlebars-template">
-    <li data-timestamp="{{timestamp}}">
+    <li id="marble-selected-route" data-timestamp="{{timestamp}}">
         <p>{{name}}</p>
         <p>{{distance}} km</p>
         <p>{{duration}} minutes</p>

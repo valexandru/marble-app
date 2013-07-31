@@ -67,6 +67,17 @@ Marble.Data.Routes = (function() {
                     callback.call(undefined, kml);
                 }, "xml");
             }
+        },
+        delete: function(timestamp, callback) {
+            $.ajax({
+                url: "api/v1/routes/delete/" + timestamp,
+                type: "DELETE",
+                success: function(data) {
+                    if (data.status === "success") {
+                        callback.call(undefined);
+                    }
+                }
+            });
         }
     };
 })();
@@ -223,7 +234,6 @@ Marble.Engine = new Transitional({
             var engine = this;
 
             Marble.Router.navigate("#/routes/" + input.timestamp, false);
-            console.log("entered route_display ", input.timestamp);
 
             data.selectedRouteTimestamp = input.timestamp;
 
@@ -232,6 +242,13 @@ Marble.Engine = new Transitional({
                 $("#marble-routes li").filter(function() {
                     return $(this).data("timestamp") == input.timestamp;
                 }).replaceWith(template(route));
+                $("#marble-selected-route button.marble-route-delete").click(function() {
+                    // TODO
+                    Marble.Data.Routes.delete(input.timestamp, function() {
+                        $("#marble-selected-route").remove();
+                        engine.push("route_list");
+                    });
+                });
             });
 
             $("#marble-routes > li").each(function(index, routeEl) {
