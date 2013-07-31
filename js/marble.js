@@ -149,8 +149,8 @@ Marble.Engine = new Transitional({
             /^#\/routes\/?$/, function() {
                 engine.push("route_list");
             },
-            /^#\/routes\/(\d+)\/?$/, function(route_id) {
-                engine.push("route_display", {"timestamp":route_id});
+            /^#\/routes\/(\d+)\/?$/, function(timestamp) {
+                engine.push("route_display", {"timestamp": timestamp});
             }
         );
         Marble.Router.redirects(
@@ -211,10 +211,36 @@ Marble.Engine = new Transitional({
                 });
             });
         },
+        "route_display > !": function(data) {
+            var template = Handlebars.compile($("#marble-route-template").html());
+            Marble.Data.Routes.getDetails(data.selectedRouteTimestamp, function(route) {
+                $("#marble-routes li").filter(function() {
+                    return $(this).data("timestamp") == data.selectedRouteTimestamp;
+                }).replaceWith(template(route));
+            });
+        },
         "! > route_display": function(data, input) {
+            var engine = this;
+
             Marble.Router.navigate("#/routes/" + input.timestamp, false);
             console.log("entered route_display ", input.timestamp);
-        }
+
+            data.selectedRouteTimestamp = input.timestamp;
+
+            var template = Handlebars.compile($("#marble-route-selected-template").html());
+            Marble.Data.Routes.getDetails(input.timestamp, function(route) {
+                $("#marble-routes li").filter(function() {
+                    return $(this).data("timestamp") == input.timestamp;
+                }).replaceWith(template(route));
+            });
+
+            $("#marble-routes > li").each(function(index, routeEl) {
+                var timestamp = $(routeEl).data("timestamp");
+                $(routeEl).click(function() {
+                    engine.push("route_display", {"timestamp": timestamp});
+                });
+            });
+        },
     }
 });
 
