@@ -193,6 +193,10 @@ Marble.Engine = new Transitional({
         });
     },
     rules: {
+        "! > !": function(data, input, from, to) {
+            console.log(from + " > " + to);
+            console.log(input);
+        },
         "! > home": function(){
             Marble.setSelectedNavEntry("home");
             Marble.Router.navigate("#/", false);
@@ -212,6 +216,7 @@ Marble.Engine = new Transitional({
                 /* load the template, compile it and include it */
                 var html = $("#marble-route-list-template").html();
                 var template = Handlebars.compile(html);
+                $("#marble-context").empty();
                 $("#marble-context").html(template(data));
 
                 $("#marble-routes > li").each(function(index, routeEl) {
@@ -223,11 +228,17 @@ Marble.Engine = new Transitional({
             });
         },
         "route_display > !": function(data) {
+            var engine = this;
+
+            var timestamp = data.selectedRouteTimestamp;
             var template = Handlebars.compile($("#marble-route-template").html());
-            Marble.Data.Routes.getDetails(data.selectedRouteTimestamp, function(route) {
+            Marble.Data.Routes.getDetails(timestamp, function(route) {
+                $("#marble-selected-route").replaceWith(template(route));
                 $("#marble-routes li").filter(function() {
-                    return $(this).data("timestamp") == data.selectedRouteTimestamp;
-                }).replaceWith(template(route));
+                    return $(this).data("timestamp") == timestamp;
+                }).click(function() {
+                    engine.push("route_display", {"timestamp": timestamp});
+                });
             });
         },
         "! > route_display": function(data, input) {
@@ -243,7 +254,6 @@ Marble.Engine = new Transitional({
                     return $(this).data("timestamp") == input.timestamp;
                 }).replaceWith(template(route));
                 $("#marble-selected-route button.marble-route-delete").click(function() {
-                    // TODO
                     Marble.Data.Routes.delete(input.timestamp, function() {
                         $("#marble-selected-route").remove();
                         engine.push("route_list");
@@ -251,11 +261,8 @@ Marble.Engine = new Transitional({
                 });
             });
 
-            $("#marble-routes > li").each(function(index, routeEl) {
-                var timestamp = $(routeEl).data("timestamp");
-                $(routeEl).click(function() {
-                    engine.push("route_display", {"timestamp": timestamp});
-                });
+            Marble.Data.Routes.getKML(input.timestamp, function(kml) {
+                console.log(kml);
             });
         },
     }
