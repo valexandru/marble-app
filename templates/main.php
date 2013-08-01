@@ -1,6 +1,8 @@
 <?php
 \OCP\Util::addStyle('marble', 'leaflet/leaflet');
-\OCP\Util::addScript('marble', 'leaflet');
+\OCP\Util::addScript('marble', 'leaflet/leaflet');
+
+\OCP\Util::addScript('marble', 'KML');
 
 \OCP\Util::addStyle('marble', 'icons/css/marble-icons');
 

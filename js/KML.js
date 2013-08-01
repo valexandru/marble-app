@@ -11,7 +11,7 @@ L.KML = L.FeatureGroup.extend({
 		this._layers = {};
 
 		if (kml) {
-			this.addKML(kml, options, this.options.async);
+			this._addKML(kml, options, this.options.async);
 		}
 	},
 

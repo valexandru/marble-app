@@ -74,6 +74,8 @@ Marble.Data.Routes = (function() {
                 type: "DELETE",
                 success: function(data) {
                     if (data.status === "success") {
+                        Cache.List = null;
+                        delete Cache.KML[timestamp];
                         callback.call(undefined);
                     }
                 }
@@ -135,12 +137,12 @@ Marble.setupMap = function() {
     });
 
     // create a map in the #map div, set the view to a given place and zoom
-    var map = L.map('marble-map').setView([45, 10], 2);
+    Marble.map = L.map('marble-map').setView([45, 10], 2);
 
     // add an OpenStreetMap tile layer
     L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    }).addTo(Marble.map);
 };
 
 /* Marble State Engine */
@@ -193,10 +195,12 @@ Marble.Engine = new Transitional({
         });
     },
     rules: {
+    /*
         "! > !": function(data, input, from, to) {
             console.log(from + " > " + to);
             console.log(input);
         },
+    */
         "! > home": function(){
             Marble.setSelectedNavEntry("home");
             Marble.Router.navigate("#/", false);
@@ -240,6 +244,8 @@ Marble.Engine = new Transitional({
                     engine.push("route_display", {"timestamp": timestamp});
                 });
             });
+
+            Marble.map.removeLayer(data.routeLayer);
         },
         "! > route_display": function(data, input) {
             var engine = this;
@@ -262,7 +268,9 @@ Marble.Engine = new Transitional({
             });
 
             Marble.Data.Routes.getKML(input.timestamp, function(kml) {
-                console.log(kml);
+                var route = data.routeLayer = new L.KML(kml);
+                Marble.map.fitBounds(route.getBounds());
+                Marble.map.addLayer(route);
             });
         },
     }
