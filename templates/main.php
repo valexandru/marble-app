@@ -51,7 +51,7 @@
 
 <script id="marble-route-template" type="text/x-handlebars-template">
     <li data-timestamp="{{timestamp}}">
-        <p>{{name}}</p>
+        <p><strong>{{name}}</strong></p>
         <p>{{distance}} km</p>
         <p>{{duration}} minutes</p>
     </li>
@@ -59,11 +59,19 @@
 
 <script id="marble-route-selected-template" type="text/x-handlebars-template">
     <li id="marble-selected-route" data-timestamp="{{timestamp}}">
-        <p>{{name}}</p>
+        <p><strong>{{name}}</strong></p>
         <p>{{distance}} km</p>
         <p>{{duration}} minutes</p>
         <button class="pure-button marble-route-delete">Delete</button>
         <button class="pure-button marble-route-edit">Edit</button>
+    </li>
+</script>
+
+<script id="marble-route-edit-template" type="text/x-handlebars-template">
+    <li id="marble-edited-route" data-timestamp="{{timestamp}}">
+        <label for="new_name">New name:</label>
+        <input id="new_name" type="text">
+        <button class="pure-button marble-route-submit">Submit</button>
     </li>
 </script>
     

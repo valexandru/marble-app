@@ -3,7 +3,11 @@
 namespace OCA\Marble\Controller;
 
 use \OCA\AppFramework\Controller\Controller;
+use \OCA\AppFramework\Http\Http;
+use \OCA\AppFramework\Http\JSONResponse;
+
 use \OCA\Marble\Db\RouteMapper;
+use \OCA\Marble\BusinessLayer\RouteBusinessLayer;
 
 class RouteController extends Controller {
 
@@ -24,4 +28,31 @@ class RouteController extends Controller {
         
         return $this->renderJSON($routesList);
     }
+
+    /**
+     * @IsAdminExemption
+     * @IsSubAdminExemption
+     * @Ajax
+     */
+    public function rename() {
+        $layer = new RouteBusinessLayer($this->api);
+
+        $userId = $this->api->getUserId();
+        $timestamp = $this->params('timestamp');
+        $newName = $this->params('newName');
+
+        try {
+            $layer->rename($userId, $timestamp, $newName);
+
+            return new JSONResponse(array(
+                'status' => 'success'
+            ), Http::STATUS_OK);
+        } catch (BusinessLayerException $e) {
+            return new JSONResponse(array(
+                'status' => 'error',
+                'message' => $e->getMessage()
+            ), Http::STATUS_BAD_REQUEST);
+        }
+    }
+
 }

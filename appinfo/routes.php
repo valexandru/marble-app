@@ -26,6 +26,12 @@ $this->create('marble_routes_get_all', '/routes')->get()->action(
     }
 );
 
+$this->create('marble_routes_rename', '/routes/rename')->post()->action(
+    function($params) {
+        App::main('RouteController', 'rename', $params, new DIContainer());
+    }
+);
+
 // TODO the rest. Doing the API for now. See below.
 
 /**
@@ -79,12 +85,6 @@ $this->create('marble_api_routes_create', '/api/v1/routes/create')->post()->acti
 $this->create('marble_api_routes_delete', '/api/v1/routes/delete/{timestamp}')->delete()->action(
     function($params) {
         App::main('RouteAPI', 'delete', $params, new DIContainer());
-    }
-);
-
-$this->create('marble_api_routes_rename', '/api/v1/routes/rename')->put()->action(
-    function($params) {
-        App::main('RouteAPI', 'rename', $params, new DIContainer());
     }
 );
 

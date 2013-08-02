@@ -146,32 +146,4 @@ class RouteAPI extends Controller {
         }
     }
 
-    /**
-     * @IsAdminExemption
-     * @IsSubAdminExemption
-     * @Ajax
-     * @CSRFExemption
-     * @API
-     */
-    public function rename() {
-        $layer = new RouteBusinessLayer($this->api);
-
-        $userId = $this->api->getUserId();
-        $timestamp = $this->params('timestamp');
-        $newName = $this->params('newName');
-
-        try {
-            $layer->rename($userId, $timestamp, $newName);
-
-            return new JSONResponse(array(
-                'status' => 'success'
-            ), Http::STATUS_OK);
-        } catch (BusinessLayerException $e) {
-            return new JSONResponse(array(
-                'status' => 'error',
-                'message' => $e->getMessage()
-            ), Http::STATUS_BAD_REQUEST);
-        }
-    }
-
 }

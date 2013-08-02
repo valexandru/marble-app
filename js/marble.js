@@ -72,10 +72,26 @@ Marble.Data.Routes = (function() {
             $.ajax({
                 url: "api/v1/routes/delete/" + timestamp,
                 type: "DELETE",
-                success: function(data) {
-                    if (data.status === "success") {
+                success: function(jsonData) {
+                    if (jsonData.status === "success") {
                         Cache.List = null;
                         delete Cache.KML[timestamp];
+                        callback.call(undefined);
+                    }
+                }
+            });
+        },
+        rename: function(timestamp, new_name, callback) {
+            $.ajax({
+                url: "routes/rename",
+                data: {
+                    timestamp: timestamp,
+                    newName: new_name
+                },
+                type: "POST",
+                success: function(jsonData) {
+                    if (jsonData.status === "success") {
+                        Cache.List = null;
                         callback.call(undefined);
                     }
                 }
@@ -160,7 +176,7 @@ Marble.Engine = new Transitional({
                 engine.push("home");
             },
             /^#\/routes\/?$/, function() {
-                engine.push("route_list");
+                engine.push("route_list", {noCache: true});
             },
             /^#\/routes\/(\d+)\/?$/, function(timestamp) {
                 engine.push("route_display", {"timestamp": timestamp});
@@ -179,7 +195,7 @@ Marble.Engine = new Transitional({
             });
             $("#marble-nav-routes a").click(function(event) {
                 event.preventDefault();
-                engine.push("route_list");
+                engine.push("route_list", {noCache: true});
             });
             $("#marble-nav-tracks a").click(function(event) {
                 event.preventDefault();
@@ -211,7 +227,7 @@ Marble.Engine = new Transitional({
         "! route_list > route_list": function() {
             Marble.Router.navigate("#/routes/", false);
         },
-        "! route_list route_display > route_list route_display": function() {
+        "! > route_list route_display": function(data, input) {
             var engine = this;
 
             Marble.setSelectedNavEntry("routes");
@@ -229,9 +245,12 @@ Marble.Engine = new Transitional({
                         engine.push("route_display", {"timestamp": timestamp});
                     });
                 });
-            });
+            }, input.noCache);
         },
-        "route_display > !": function(data) {
+        "route_display route_edit > !": function(data) {
+            Marble.map.removeLayer(data.routeLayer);
+        },
+        "route_display > ! route_edit": function(data) {
             var engine = this;
 
             var timestamp = data.selectedRouteTimestamp;
@@ -244,8 +263,6 @@ Marble.Engine = new Transitional({
                     engine.push("route_display", {"timestamp": timestamp});
                 });
             });
-
-            Marble.map.removeLayer(data.routeLayer);
         },
         "! > route_display": function(data, input) {
             var engine = this;
@@ -262,11 +279,29 @@ Marble.Engine = new Transitional({
                 $("#marble-selected-route button.marble-route-delete").click(function() {
                     Marble.Data.Routes.delete(input.timestamp, function() {
                         $("#marble-selected-route").remove();
-                        engine.push("route_list");
+                        engine.push("route_list", {noCache: false});
+                    });
+                });
+                $("#marble-selected-route button.marble-route-edit").click(function() {
+                    engine.push("route_edit", {timestamp: input.timestamp});
+                });
+            });
+        },
+        "route_display > route_edit": function(data, input) {
+            var engine = this;
+
+            var template = Handlebars.compile($("#marble-route-edit-template").html());
+            Marble.Data.Routes.getDetails(input.timestamp, function(route) {
+                $("#marble-selected-route").replaceWith(template(route));
+
+                $("#marble-edited-route button.marble-route-submit").click(function() {
+                    Marble.Data.Routes.rename(input.timestamp, $("#new_name").val(), function() {
+                        engine.push("route_display", {timestamp: input.timestamp});
                     });
                 });
             });
-
+        },
+        "! > route_display route_edit": function(data, input) {
             Marble.Data.Routes.getKML(input.timestamp, function(kml) {
                 var route = data.routeLayer = new L.KML(kml);
                 Marble.map.fitBounds(route.getBounds());
