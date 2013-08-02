@@ -296,6 +296,7 @@ Marble.Engine = new Transitional({
 
                 $("#marble-edit-form").submit(function(event) {
                     event.preventDefault();
+                    $("#submit_button").addClass("pure-button-disabled");
                     Marble.Data.Routes.rename(input.timestamp, $("#new_name").val(), function() {
                         engine.push("route_display", {timestamp: input.timestamp});
                     });

@@ -72,7 +72,7 @@
         <form id="marble-edit-form">
             <label for="new_name">New name:</label>
             <input id="new_name" type="text" value="{{name}}" autofocus>
-            <button type="submit" class="pure-button marble-route-submit">Submit</button>
+            <button id="submit_button" type="submit" class="pure-button marble-route-submit">Submit</button>
         </form>
     </li>
 </script>
