@@ -69,9 +69,11 @@
 
 <script id="marble-route-edit-template" type="text/x-handlebars-template">
     <li id="marble-edited-route" data-timestamp="{{timestamp}}">
-        <label for="new_name">New name:</label>
-        <input id="new_name" type="text">
-        <button class="pure-button marble-route-submit">Submit</button>
+        <form id="marble-edit-form">
+            <label for="new_name">New name:</label>
+            <input id="new_name" type="text" value="{{name}}" autofocus>
+            <button type="submit" class="pure-button marble-route-submit">Submit</button>
+        </form>
     </li>
 </script>
     

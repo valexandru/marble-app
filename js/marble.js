@@ -294,7 +294,8 @@ Marble.Engine = new Transitional({
             Marble.Data.Routes.getDetails(input.timestamp, function(route) {
                 $("#marble-selected-route").replaceWith(template(route));
 
-                $("#marble-edited-route button.marble-route-submit").click(function() {
+                $("#marble-edit-form").submit(function(event) {
+                    event.preventDefault();
                     Marble.Data.Routes.rename(input.timestamp, $("#new_name").val(), function() {
                         engine.push("route_display", {timestamp: input.timestamp});
                     });
