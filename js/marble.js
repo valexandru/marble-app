@@ -21,6 +21,7 @@ Marble.setSelectedNavEntry = function(page) {
  * Define the data source and its methods
  */
 Marble.Data = {};
+
 Marble.Data.Routes = (function() {
     var Cache = {};
     Cache.List = null;
@@ -100,43 +101,29 @@ Marble.Data.Routes = (function() {
     };
 })();
 
-/*
-Marble.Data = {
-    Bookmarks: {
+Marble.Data.Bookmarks = (function() {
+    return {
         get: function(callback) {
-            $.getJSON("bookmarks/json", function(data) {
-                callback.call(undefined, data.data);
+            $.getJSON("bookmarks/json", function(jsonData) {
+                callback.call(undefined, jsonData.data);
             });
-        }
-    }
-};
-*/
-
-/**
- * Setup controllers (TO REMOVE)
- */
-/*
-Marble.Controller = {
-    Bookmarks: function() {
-        Marble.setSelectedNavEntry("bookmarks");
-        Marble.Data.Bookmarks.get(function(data) {
-            var html = $("#marble-bookmarks-template").html();
-            $("#marble-context").html(html);
-
-            $("#marble-bookmarks").tree({
-                data: data,
-                dragAndDrop: true,
-                onCanMoveTo: function(moved, target) {
-                    if (target.is_folder) {
-                        return true;
+        },
+        update: function(newJson, callback) {
+            $.ajax({
+                url: "bookmarks/update",
+                data: {
+                    "json": newJson
+                },
+                type: "POST",
+                success: function(jsonData) {
+                    if (jsonData.status === "success") {
+                        callback.call(undefined);
                     }
-                    return false;
                 }
             });
-        });
-    }
-};
-*/
+        }
+    };
+})();
 
 Marble.setupMap = function() {
     function scaleMap() {
@@ -236,8 +223,7 @@ Marble.Engine = new Transitional({
                 /* load the template, compile it and include it */
                 var html = $("#marble-route-list-template").html();
                 var template = Handlebars.compile(html);
-                $("#marble-context").empty();
-                $("#marble-context").html(template(data));
+                $("#marble-context").empty().html(template(data));
 
                 $("#marble-routes > li").each(function(index, routeEl) {
                     var timestamp = $(routeEl).data("timestamp");
@@ -310,6 +296,38 @@ Marble.Engine = new Transitional({
                 Marble.map.addLayer(route);
             });
         },
+        "! > bookmarks": function() {
+            Marble.Router.navigate("#/bookmarks", false);
+            Marble.setSelectedNavEntry("bookmarks");
+
+            Marble.Data.Bookmarks.get(function(data) {
+                $("#marble-context").empty().html($("#marble-bookmarks-template").html());
+
+                $("#marble-bookmarks").tree({
+                    data: data,
+                    dragAndDrop: true,
+                    onCanMoveTo: function(moved, target) {
+                        if (target.is_folder) {
+                            return true;
+                        }
+                        return false;
+                    }
+                });
+
+                $("#marble-bookmarks").bind("tree.move", function(event) {
+                    event.preventDefault();
+                    event.move_info.do_move();
+                    $(this).trigger("tree.modified");
+                });
+
+                $("#marble-bookmarks").bind("tree.modified", function() {
+                    var newJson = $(this).tree("toJson");
+                    Marble.Data.Bookmarks.update(newJson, function() {
+                        console.log("updated");
+                    });
+                });
+            });
+        }
     }
 });
 

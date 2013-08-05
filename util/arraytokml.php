@@ -31,7 +31,7 @@ class ArrayToKml {
     }
 
     private static function arrayToFolder($array, &$folder) {
-        $folder->addChild('name', $array['label']);
+        $folder->addChild('name', $array['name']);
         $folder->addChild('visibility', $array['visibility']);
 
         foreach ($array['children'] as $child) {
@@ -46,7 +46,7 @@ class ArrayToKml {
     }
 
     private static function arrayToPlacemark($array, &$placemark) {
-        $placemark->addChild('name', $array['label']);
+        $placemark->addChild('name', $array['name']);
         $placemark->addChild('visibility', $array['visibility']);
         $placemark->addChild('description', $array['description']);
 
