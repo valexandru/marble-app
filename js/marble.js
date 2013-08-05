@@ -167,6 +167,9 @@ Marble.Engine = new Transitional({
             },
             /^#\/routes\/(\d+)\/?$/, function(timestamp) {
                 engine.push("route_display", {"timestamp": timestamp});
+            },
+            /^#\/bookmarks\/?$/, function() {
+                engine.push("bookmarks");
             }
         );
         Marble.Router.redirects(
@@ -297,7 +300,7 @@ Marble.Engine = new Transitional({
             });
         },
         "! > bookmarks": function() {
-            Marble.Router.navigate("#/bookmarks", false);
+            Marble.Router.navigate("#/bookmarks/", false);
             Marble.setSelectedNavEntry("bookmarks");
 
             Marble.Data.Bookmarks.get(function(data) {
