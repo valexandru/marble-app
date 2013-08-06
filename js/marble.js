@@ -303,6 +303,8 @@ Marble.Engine = new Transitional({
             Marble.Router.navigate("#/bookmarks/", false);
             Marble.setSelectedNavEntry("bookmarks");
 
+            Marble.map.markers = [];
+
             Marble.Data.Bookmarks.get(function(data) {
                 $("#marble-context").empty().html($("#marble-bookmarks-template").html());
 
@@ -328,6 +330,25 @@ Marble.Engine = new Transitional({
                     Marble.Data.Bookmarks.update(newJson, function() {
                         console.log("updated");
                     });
+                });
+
+                $("#marble-bookmarks").bind("tree.select", function(event) {
+                    if (event.node) {
+                        var node = event.node;
+
+                        for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
+                            Marble.map.removeLayer(mList[i]);
+                        }
+                        Marble.map.markers = [];
+
+                        if (node.is_folder) {
+                            console.log("selected a folder - TODO");
+                        } else {
+                            var coords = node.point_coordinates.split(",");
+                            var marker = L.marker([coords[1], coords[0]]).addTo(Marble.map);
+                            Marble.map.markers.push(marker);
+                        }
+                    }
                 });
             });
         }
