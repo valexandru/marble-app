@@ -1,5 +1,17 @@
 var Marble = {};
 
+Marble.Util = {};
+Marble.Util.hash = function(str){
+    var hash = 0, i, char;
+    if (str.length === 0) return hash;
+    for (i = 0, l = str.length; i < l; i++) {
+        char  = str.charCodeAt(i);
+        hash  = ((hash<<5)-hash)+char;
+        hash |= 0; // Convert to 32bit integer
+    }
+    return hash;
+};
+
 Marble.setSelectedNavEntry = function(page) {
     if (["home", "bookmarks", "routes", "tracks"].indexOf(page) < 0) {
         // if not among the options above...
@@ -176,6 +188,15 @@ Marble.Engine = new Transitional({
             /.*/, "#/"
         );
 
+        /* Setup the leaflet icons */
+        Marble.Util.icons = [];
+        for (i = -12; i <= 12; i++) {
+            Marble.Util.icons[i] = L.icon({
+                iconUrl: '../../../apps/marble/js/leaflet/images/marker-icon' + i + '.png',
+                shadowUrl: '../../../apps/marble/js/leaflet/images/marker-shadow.png',
+            });
+        }
+
         /* On document ready */
         $(function() {
             /* Setup the menu */
@@ -334,20 +355,11 @@ Marble.Engine = new Transitional({
 
                 $("#marble-bookmarks").bind("tree.select", function(event) {
                     if (event.node) {
-                        var node = event.node;
-
                         for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
                             Marble.map.removeLayer(mList[i]);
                         }
                         Marble.map.markers = [];
-
-                        if (node.is_folder) {
-                            console.log("selected a folder - TODO");
-                        } else {
-                            var coords = node.point_coordinates.split(",");
-                            var marker = L.marker([coords[1], coords[0]]).addTo(Marble.map);
-                            Marble.map.markers.push(marker);
-                        }
+                        displayNode(event.node);
                     }
                 });
             });
@@ -355,3 +367,27 @@ Marble.Engine = new Transitional({
     }
 });
 
+function displayPlacemark(node, colorId) {
+    var coords = node.point_coordinates.split(",");
+    var marker = L.marker([coords[1], coords[0]], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
+    Marble.map.markers.push(marker);
+}
+
+function displayFolder(node, colorId) {
+    for (var i=0, len=node.children.length; i<len; i++) {
+        if (node.children[i].is_folder) {
+            displayFolder(node.children[i], colorId);
+        } else {
+            displayPlacemark(node.children[i], colorId);
+        }
+    }
+}
+
+function displayNode(node) {
+    var colorId = Marble.Util.hash(node.name) % 13;
+    if (node.is_folder) {
+        displayFolder(node, colorId);
+    } else {
+        displayPlacemark(node, colorId);
+    }
+}

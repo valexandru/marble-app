@@ -51,19 +51,27 @@
 
 <script id="marble-route-template" type="text/x-handlebars-template">
     <li data-timestamp="{{timestamp}}">
-        <p><strong>{{name}}</strong></p>
-        <p>{{distance}} km</p>
-        <p>{{duration}} minutes</p>
+        <div style="font-size: 115%; text-align: center;"><strong>{{name}}</strong></div>
+        <div style="overflow: hidden;">
+            <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
+            <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
+        </div>
     </li>
 </script>
 
 <script id="marble-route-selected-template" type="text/x-handlebars-template">
-    <li id="marble-selected-route" data-timestamp="{{timestamp}}">
-        <p><strong>{{name}}</strong></p>
-        <p>{{distance}} km</p>
-        <p>{{duration}} minutes</p>
-        <button class="pure-button marble-route-delete">Delete</button>
-        <button class="pure-button marble-route-edit">Edit</button>
+    <li id="marble-selected-route" data-timestamp="{{timestamp}}" style="">
+        <div style="">
+            <div style="font-size: 115%; text-align: center;"><strong>{{name}}</strong></div>
+            <div style="overflow: hidden;">
+                <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
+                <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
+            </div>
+        </div>
+        <div style="width: 20px;">
+            <button class="pure-button marble-route-delete">Delete</button>
+            <button class="pure-button marble-route-edit">Edit</button>
+        </div>
     </li>
 </script>
 
