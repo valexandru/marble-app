@@ -337,6 +337,9 @@ Marble.Engine = new Transitional({
                             return true;
                         }
                         return false;
+                    },
+                    onCreateLi: function(node, $li) {
+                        $li.find("i").addClass("folder-icon" + Marble.Util.hash(node.name) % 13);
                     }
                 });
 
