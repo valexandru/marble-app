@@ -27,14 +27,36 @@
 
 /* temporary style for the routes list */
 #marble-routes > li {
-    border: 1px solid black;
+    border: 1px solid #CCC;
+    border-radius: 2px;
     margin: 3px;
-    padding: 3px;
 }
 
 #marble-bookmarks {
     margin: 1em 1.8em;
     font-size: 110%;
+}
+
+.marble-route-delete {
+    padding: 3px 2px;
+    margin: 1px;
+}
+
+.marble-route-edit {
+    padding: 3px 2px;
+    margin: 1px;
+}
+
+.marble-route-submit {
+    padding: 3px 2px;
+    margin: 1px;
+}
+
+#new_name {
+    width: 86%;
+    margin: 7px;
+    padding: 4px;
+    text-align: center;
 }
 
 /* Folder icons */
