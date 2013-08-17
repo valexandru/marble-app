@@ -376,7 +376,6 @@ Marble.Engine = new Transitional({
 
 function displayPlacemark(node, colorId) {
     var coords = node.point_coordinates.split(",");
-console.log(coords);
     var marker = L.marker([coords[1], coords[0]], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
     Marble.map.markers.push(marker);
 }
