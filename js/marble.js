@@ -336,6 +336,7 @@ Marble.Engine = new Transitional({
                 $("#marble-bookmarks").tree({
                     data: data,
                     dragAndDrop: true,
+                    slide: false,
                     onCanMoveTo: function(moved, target) {
                         if (target.is_folder) {
                             return true;
@@ -345,6 +346,14 @@ Marble.Engine = new Transitional({
                     onCreateLi: function(node, $li) {
                         $li.find("i").addClass("folder-icon" + Marble.Util.hash(node.name) % 13);
                     }
+                });
+
+                $("#marble-bookmarks").bind("tree.open", function(event) {
+                    $(event.node.element).find("i").first().addClass("folder-icon" + Marble.Util.hash(event.node.name) % 13);
+                });
+
+                $("#marble-bookmarks").bind("tree.close", function(event) {
+                    $(event.node.element).find("i").first().addClass("folder-icon" + Marble.Util.hash(event.node.name) % 13);
                 });
 
                 $("#marble-bookmarks").bind("tree.move", function(event) {
@@ -391,10 +400,12 @@ function displayFolder(node, colorId) {
 }
 
 function displayNode(node) {
-    var colorId = Marble.Util.hash(node.name) % 13;
+    var colorId;
     if (node.is_folder) {
+        colorId = Marble.Util.hash(node.name) % 13;
         displayFolder(node, colorId);
     } else {
+        colorId = node.parent.name ? Marble.Util.hash(node.parent.name) % 13 : 12;
         displayPlacemark(node, colorId);
     }
 }
