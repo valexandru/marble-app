@@ -81,10 +81,6 @@
                 <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
                 <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
             </div>
-            <div style="display: none; position: absolute; right: 7px; top: 7px;">
-                <button id="submit_button" type="submit" class="pure-button marble-route-submit"><i class="icon-compass"></i></button>
-                <button class="pure-button marble-route-delete"><i class="icon-pushpin"></i></button>
-            </div>
         </form>
     </li>
 </script>

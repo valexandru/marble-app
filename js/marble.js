@@ -333,7 +333,8 @@ Marble.Engine = new Transitional({
             Marble.Data.Bookmarks.get(function(data) {
                 $("#marble-context").empty().html($("#marble-bookmarks-template").html());
 
-                $("#marble-bookmarks").tree({
+                var treeEl = $("#marble-bookmarks");
+                treeEl.tree({
                     data: data,
                     dragAndDrop: true,
                     slide: false,
@@ -348,34 +349,42 @@ Marble.Engine = new Transitional({
                     }
                 });
 
-                $("#marble-bookmarks").bind("tree.open", function(event) {
+                treeEl.bind("tree.open", function(event) {
                     $(event.node.element).find("i").first().addClass("folder-icon" + Marble.Util.hash(event.node.name) % 13);
                 });
 
-                $("#marble-bookmarks").bind("tree.close", function(event) {
+                treeEl.bind("tree.close", function(event) {
                     $(event.node.element).find("i").first().addClass("folder-icon" + Marble.Util.hash(event.node.name) % 13);
                 });
 
-                $("#marble-bookmarks").bind("tree.move", function(event) {
+                treeEl.bind("tree.move", function(event) {
                     event.preventDefault();
                     event.move_info.do_move();
                     $(this).trigger("tree.modified");
                 });
 
-                $("#marble-bookmarks").bind("tree.modified", function() {
+                treeEl.bind("tree.modified", function() {
                     var newJson = $(this).tree("toJson");
                     Marble.Data.Bookmarks.update(newJson, function() {
                         console.log("updated");
                     });
                 });
 
-                $("#marble-bookmarks").bind("tree.select", function(event) {
+                treeEl.bind("tree.select", function(event) {
+                    treeEl.find("button.marble-bookmarks-delete").remove();
                     if (event.node) {
                         for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
                             Marble.map.removeLayer(mList[i]);
                         }
                         Marble.map.markers = [];
                         displayNode(event.node);
+
+                        var deleteButton = $('<button class="pure-button marble-bookmarks-delete"><i class="icon-pushpin"></i></button>');
+                        $(event.node.element).find("div:first").append(deleteButton);
+                        deleteButton.click(function() {
+                            treeEl.tree("removeNode", event.node);
+                            treeEl.trigger("tree.modified");
+                        });
                     }
                 });
             });

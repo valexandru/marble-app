@@ -59,6 +59,13 @@
     text-align: center;
 }
 
+.marble-bookmarks-delete {
+    float: right;
+    margin-right: 10px;
+    padding: 2px;
+    border-radius: 2px;
+}
+
 /* Folder icons */
 .folder-icon-12 {
     color: hsl(30, 75%, 43%);
