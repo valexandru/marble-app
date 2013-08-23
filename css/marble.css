@@ -37,17 +37,7 @@
     font-size: 110%;
 }
 
-.marble-route-delete {
-    padding: 3px 2px;
-    margin: 1px;
-}
-
-.marble-route-edit {
-    padding: 3px 2px;
-    margin: 1px;
-}
-
-.marble-route-submit {
+.marble-route-delete, .marble-route-edit {
     padding: 3px 2px;
     margin: 1px;
 }
@@ -59,7 +49,7 @@
     text-align: center;
 }
 
-.marble-bookmarks-delete {
+.marble-bookmarks-delete, .marble-bookmarks-rename {
     float: right;
     margin-right: 10px;
     padding: 2px;

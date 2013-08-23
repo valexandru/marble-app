@@ -370,9 +370,13 @@ Marble.Engine = new Transitional({
                     });
                 });
 
-                treeEl.bind("tree.select", function(event) {
-                    treeEl.find("button.marble-bookmarks-delete").remove();
-                    if (event.node) {
+                treeEl.bind("tree.click", function(event) {
+                    event.preventDefault();
+                    if (treeEl.tree("getSelectedNode") !== event.node) {
+                        treeEl.tree("selectNode", event.node);
+                        treeEl.find("button.marble-bookmarks-delete").remove();
+                        treeEl.find("button.marble-bookmarks-rename").remove();
+
                         for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
                             Marble.map.removeLayer(mList[i]);
                         }
@@ -384,6 +388,19 @@ Marble.Engine = new Transitional({
                         deleteButton.click(function() {
                             treeEl.tree("removeNode", event.node);
                             treeEl.trigger("tree.modified");
+                        });
+
+                        var renameButton = $('<button class="pure-button marble-bookmarks-rename"><i class="icon-road"></i></button>');
+                        $(event.node.element).find("div:first").append(renameButton);
+                        renameButton.click(function() {
+                            console.log('edit');
+                            /*
+                            $(event.node.element).find("span:first")
+                                .replaceWith('<form id="bookmarks-rename-form"><input type="text" value="' + event.node.name + '" autofocus></form>');
+                            $("#bookmarks-rename-form").submit(function() {
+                                treeEl.trigger("tree.modified");
+                            });
+                            */
                         });
                     }
                 });
