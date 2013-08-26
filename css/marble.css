@@ -2,6 +2,10 @@
     width: 100%;
 }
 
+#marble-map-container {
+    float: right;
+}
+
 #marble-home-indicator {
     font-size: 110%;
     margin-left: 1.8em;
@@ -20,12 +24,6 @@
     padding: 0 .3em;
 }
 
-/* Fix for Firefox */
-.pure-u-3-4 {
-    width: 74.99%
-}
-
-/* temporary style for the routes list */
 #marble-routes > li {
     border: 1px solid #CCC;
     border-radius: 2px;
