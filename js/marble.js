@@ -144,9 +144,7 @@ Marble.setupMap = function() {
 
     scaleMap();
 
-    /**
-     * When window is resized:
-     */
+    // on window resize
     $(window).on('resize', function() {
         scaleMap();
     });
@@ -226,12 +224,10 @@ Marble.Engine = new Transitional({
         });
     },
     rules: {
-    /*
         "! > !": function(data, input, from, to) {
             console.log(from + " > " + to);
             console.log(input);
         },
-    */
         "! > home": function(){
             Marble.setSelectedNavEntry("home");
             Marble.Router.navigate("#/", false);
@@ -256,8 +252,7 @@ Marble.Engine = new Transitional({
                 $("#marble-routes > li").each(function(index, routeEl) {
                     var timestamp = $(routeEl).data("timestamp");
                     $(routeEl).click(function() {
-                        engine.push("route_display", {"timestamp": timestamp});
-                    });
+                        engine.push("route_display", {"timestamp": timestamp}); });
                 });
             }, input.noCache);
         },
@@ -310,7 +305,6 @@ Marble.Engine = new Transitional({
 
                 $("#marble-edit-form").submit(function(event) {
                     event.preventDefault();
-                    $("#submit_button").addClass("pure-button-disabled");
                     Marble.Data.Routes.rename(input.timestamp, $("#new_name").val(), function() {
                         engine.push("route_display", {timestamp: input.timestamp});
                     });
@@ -324,18 +318,19 @@ Marble.Engine = new Transitional({
                 Marble.map.addLayer(route);
             });
         },
-        "! > bookmarks": function() {
+        "! > bookmarks": function(data) {
+            var engine = this;
             Marble.Router.navigate("#/bookmarks/", false);
             Marble.setSelectedNavEntry("bookmarks");
 
             Marble.map.markers = [];
 
-            Marble.Data.Bookmarks.get(function(data) {
+            Marble.Data.Bookmarks.get(function(treeData) {
                 $("#marble-context").empty().html($("#marble-bookmarks-template").html());
 
-                var treeEl = $("#marble-bookmarks");
+                var treeEl = data.treeEl = $("#marble-bookmarks");
                 treeEl.tree({
-                    data: data,
+                    data: treeData,
                     dragAndDrop: true,
                     slide: false,
                     onCanMoveTo: function(moved, target) {
@@ -346,6 +341,10 @@ Marble.Engine = new Transitional({
                     },
                     onCreateLi: function(node, $li) {
                         $li.find("i").addClass("folder-icon" + Marble.Util.hash(node.name) % 13);
+                    },
+                    onCanSelectNode: function(node) {
+                        if (treeEl.tree("getSelectedNode") === node) return false;
+                        return true;
                     }
                 });
 
@@ -370,40 +369,58 @@ Marble.Engine = new Transitional({
                     });
                 });
 
-                treeEl.bind("tree.click", function(event) {
-                    event.preventDefault();
-                    if (treeEl.tree("getSelectedNode") !== event.node) {
-                        treeEl.tree("selectNode", event.node);
-                        treeEl.find("button.marble-bookmarks-delete").remove();
-                        treeEl.find("button.marble-bookmarks-rename").remove();
-
-                        for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
-                            Marble.map.removeLayer(mList[i]);
-                        }
-                        Marble.map.markers = [];
-                        displayNode(event.node);
-
-                        var deleteButton = $('<button class="pure-button marble-bookmarks-delete"><i class="icon-pushpin"></i></button>');
-                        $(event.node.element).find("div:first").append(deleteButton);
-                        deleteButton.click(function() {
-                            treeEl.tree("removeNode", event.node);
-                            treeEl.trigger("tree.modified");
-                        });
-
-                        var renameButton = $('<button class="pure-button marble-bookmarks-rename"><i class="icon-road"></i></button>');
-                        $(event.node.element).find("div:first").append(renameButton);
-                        renameButton.click(function() {
-                            console.log('edit');
-                            /*
-                            $(event.node.element).find("span:first")
-                                .replaceWith('<form id="bookmarks-rename-form"><input type="text" value="' + event.node.name + '" autofocus></form>');
-                            $("#bookmarks-rename-form").submit(function() {
-                                treeEl.trigger("tree.modified");
-                            });
-                            */
-                        });
-                    }
+                treeEl.bind("tree.select", function(event) {
+                    engine.push("bookmarks_selected", {node: event.node});
                 });
+            });
+        },
+        "bookmarks_selected > !": function(data) {
+            $(data.selectedNode.element).find("button.marble-bookmarks-delete").remove();
+            $(data.selectedNode.element).find("button.marble-bookmarks-rename").remove();
+        },
+        "bookmarks_rename > bookmarks_selected": function(data) {
+            $(data.selectedNode.element).find("form").replaceWith(data.selectedNode.name);
+        },
+        "bookmarks bookmarks_selected bookmarks_rename > bookmarks_selected": function(data, input) {
+            var engine = this,
+                treeEl = data.treeEl;
+
+            var node = data.selectedNode = input.node;
+
+            for (var i=0, mList = Marble.map.markers, len = mList.length; i<len; i++) {
+                Marble.map.removeLayer(mList[i]);
+            }
+            Marble.map.markers = [];
+            displayNode(node);
+
+            var deleteButton = $('<button class="pure-button marble-bookmarks-delete"><i class="icon-pushpin"></i></button>');
+            $(input.node.element).find("div:first").append(deleteButton);
+            deleteButton.click(function() {
+                treeEl.tree("removeNode", node);
+                treeEl.trigger("tree.modified");
+            });
+
+            var renameButton = $('<button class="pure-button marble-bookmarks-rename"><i class="icon-road"></i></button>');
+            $(node.element).find("div:first").append(renameButton);
+            renameButton.click(function() {
+                console.log('edit');
+                engine.push("bookmarks_rename");
+            });
+        },
+        "bookmarks_selected > bookmarks_rename": function(data, input) {
+            var engine = this,
+                treeEl = data.treeEl,
+                node = data.selectedNode,
+                form = $('<form id="bookmarks-rename-form"><input type="text" value="' + node.name + '" autofocus></form>');
+
+            $(node.element).find("span:first").html(form);
+
+            $("#bookmarks-rename-form").submit(function() {
+                node.name = $(this).find("input").val();
+                treeEl.trigger("tree.modified");
+                engine.push("bookmarks_selected", {node: node});
+
+                return false;
             });
         }
     }

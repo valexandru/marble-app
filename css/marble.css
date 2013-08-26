@@ -56,6 +56,11 @@
     border-radius: 2px;
 }
 
+#bookmarks-rename-form > input {
+    padding: 1px;
+    width: 100%;
+}
+
 /* Folder icons */
 .folder-icon-12 {
     color: hsl(30, 75%, 43%);
