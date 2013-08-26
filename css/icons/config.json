@@ -5,9 +5,21 @@
   "hinting": true,
   "glyphs": [
     {
+      "uid": "5211af474d3a9848f67f945e2ccaf143",
+      "css": "remove",
+      "code": 59399,
+      "src": "fontawesome"
+    },
+    {
       "uid": "5b0772e9484a1a11646793a82edd622a",
       "css": "pushpin",
       "code": 59393,
+      "src": "fontawesome"
+    },
+    {
+      "uid": "d35a1d35efeb784d1dc9ac18b9b6c2b6",
+      "css": "pencil",
+      "code": 59400,
       "src": "fontawesome"
     },
     {

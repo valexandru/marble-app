@@ -67,8 +67,8 @@
             <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
         </div>
         <div style="position: absolute; right: 7px; top: 7px;">
-            <button class="pure-button marble-route-edit"><i class="icon-road"></i></button>
-            <button class="pure-button marble-route-delete"><i class="icon-pushpin"></i></button>
+            <button class="pure-button marble-route-edit"><i class="icon-pencil"></i></button>
+            <button class="pure-button marble-route-delete"><i class="icon-remove"></i></button>
         </div>
     </li>
 </script>

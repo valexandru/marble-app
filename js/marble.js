@@ -393,14 +393,14 @@ Marble.Engine = new Transitional({
             Marble.map.markers = [];
             displayNode(node);
 
-            var deleteButton = $('<button class="pure-button marble-bookmarks-delete"><i class="icon-pushpin"></i></button>');
+            var deleteButton = $('<button class="pure-button marble-bookmarks-delete"><i class="icon-remove"></i></button>');
             $(input.node.element).find("div:first").append(deleteButton);
             deleteButton.click(function() {
                 treeEl.tree("removeNode", node);
                 treeEl.trigger("tree.modified");
             });
 
-            var renameButton = $('<button class="pure-button marble-bookmarks-rename"><i class="icon-road"></i></button>');
+            var renameButton = $('<button class="pure-button marble-bookmarks-rename"><i class="icon-pencil"></i></button>');
             $(node.element).find("div:first").append(renameButton);
             renameButton.click(function() {
                 console.log('edit');
