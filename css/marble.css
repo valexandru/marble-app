@@ -4,6 +4,7 @@
 
 #marble-map-container {
     float: right;
+    position: absolute;
 }
 
 #marble-home-indicator {
