@@ -41,11 +41,44 @@
     margin: 1px;
 }
 
-#new_name {
+#marble-edit-form {
+    text-align: center;
+}
+
+#marble-edit-form input {
     width: 86%;
     margin: 7px;
     padding: 4px;
     text-align: center;
+}
+
+.marble-route-name {
+    font-size: 115%;
+    text-align: center;
+    padding: 4px;
+}
+
+.marble-route-name-selected {
+    font-size: 115%;
+    text-align: center;
+    padding: 10px;
+    background-color: #F4F4F4;
+}
+
+.marble-route-info {
+    overflow: hidden;
+}
+
+.marble-route-info > div {
+    float: left;
+    width: 50%;
+    text-align: center;
+}
+
+.marble-route-buttons {
+    position: absolute;
+    right: 7px;
+    top: 7px;
 }
 
 .marble-bookmarks-delete, .marble-bookmarks-rename {

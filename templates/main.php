@@ -51,22 +51,22 @@
 
 <script id="marble-route-template" type="text/x-handlebars-template">
     <li data-timestamp="{{timestamp}}">
-        <div style="font-size: 115%; text-align: center; padding: 4px;"><strong>{{name}}</strong></div>
-        <div style="overflow: hidden;">
-            <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
-            <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
+        <div class="marble-route-name"><strong>{{name}}</strong></div>
+        <div class="marble-route-info">
+            <div>{{distance}} km</div>
+            <div>{{duration}} minutes</div>
         </div>
     </li>
 </script>
 
 <script id="marble-route-selected-template" type="text/x-handlebars-template">
     <li id="marble-selected-route" data-timestamp="{{timestamp}}" style="position: relative;">
-        <div style="font-size: 115%; text-align: center; padding: 10px; background-color: #F4F4F4"><strong>{{name}}</strong></div>
-        <div style="overflow: hidden;">
-            <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
-            <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
+        <div class="marble-route-name-selected"><strong>{{name}}</strong></div>
+        <div class="marble-route-info">
+            <div>{{distance}} km</div>
+            <div>{{duration}} minutes</div>
         </div>
-        <div style="position: absolute; right: 7px; top: 7px;">
+        <div class="marble-route-buttons">
             <button class="pure-button marble-route-edit"><i class="icon-pencil"></i></button>
             <button class="pure-button marble-route-delete"><i class="icon-remove"></i></button>
         </div>
@@ -76,15 +76,15 @@
 <script id="marble-route-edit-template" type="text/x-handlebars-template">
     <li id="marble-edited-route" data-timestamp="{{timestamp}}" style="position: relative;">
         <form id="marble-edit-form">
-            <div style="text-align: center;"><input id="new_name" type="text" value="{{name}}" autofocus></div>
-            <div style="overflow: hidden;">
-                <div style="float: left; width: 50%; text-align: center;">{{distance}} km</div>
-                <div style="float: left; width: 50%; text-align: center;">{{duration}} minutes</div>
+            <div><input id="new_name" type="text" value="{{name}}" autofocus></div>
+            <div class="marble-route-info">
+                <div>{{distance}} km</div>
+                <div>{{duration}} minutes</div>
             </div>
         </form>
     </li>
 </script>
 
 <script id="marble-bookmarks-template" type="text/x-handlebars-template">
-    <div id="marble-bookmarks" class="pure"></div>
+    <div id="marble-bookmarks"></div>
 </script>
