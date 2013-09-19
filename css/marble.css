@@ -31,6 +31,10 @@
     margin: 3px;
 }
 
+#marble-routes * {
+    cursor: pointer;
+}
+
 #marble-bookmarks {
     margin: 1em 1.8em;
     font-size: 110%;
