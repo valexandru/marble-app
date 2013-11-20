@@ -429,22 +429,22 @@ Marble.Engine = new Transitional({
 
 function displayPlacemark(node, colorId, extremes) {
     var coords = node.point_coordinates.split(",");
-    var x=coords[1];
-    var y=coords[0];
+    var x = coords[1];
+    var y = coords[0];
 
-    if (extremes.maxx===undefined)
+    if (extremes.maxx === undefined)
     {
-	extremes.maxx=x;
-        extremes.minx=x;
-        extremes.maxy=y;
-        extremes.miny=y;
+        extremes.maxx = x;
+        extremes.minx = x;
+        extremes.maxy = y;
+        extremes.miny = y;
     }
     else
     { 
-        if (x>extremes.maxx) extremes.maxx=x;
-    	if (x<extremes.minx) extremes.minx=x;
-    	if (y>extremes.maxy) extremes.maxy=y;
-    	if (y<extremes.miny) extremes.miny=y;
+        if (x > extremes.maxx) extremes.maxx = x;
+    	if (x < extremes.minx) extremes.minx = x;
+    	if (y > extremes.maxy) extremes.maxy = y;
+    	if (y < extremes.miny) extremes.miny = y;
     }
 
     var marker = L.marker([x, y], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
@@ -463,7 +463,7 @@ function displayFolder(node, colorId, extremes) {
 
 function displayNode(node) {
     var colorId;
-    var extremes={maxx: undefined, minx: undefined, maxy: undefined ,miny: undefined}; 
+    var extremes = {maxx: undefined, minx: undefined, maxy: undefined ,miny: undefined}; 
     if (node.is_folder) {
         colorId = Marble.Util.hash(node.name) % 13;
         displayFolder(node, colorId, extremes);
