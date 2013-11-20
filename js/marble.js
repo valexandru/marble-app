@@ -432,7 +432,7 @@ function displayPlacemark(node, colorId, extremes) {
     var x = coords[1];
     var y = coords[0];
 
-    if (extremes.maxx === undefined){
+    if (extremes.maxx === undefined) {
         extremes.maxx = x;
         extremes.minx = x;
         extremes.maxy = y;
