@@ -471,7 +471,7 @@ function displayNode(node) {
         colorId = node.parent.name ? Marble.Util.hash(node.parent.name) % 13 : 12;
         displayPlacemark(node, colorId, extremes);
     }
-   map.fitBounds([
+   Marble.map.fitBounds([
        [extremes.minx, extremes.miny],
        [extremes.maxx, extremes.maxy]
    ]);
