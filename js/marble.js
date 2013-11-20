@@ -429,13 +429,24 @@ Marble.Engine = new Transitional({
 
 function displayPlacemark(node, colorId, extremes) {
     var coords = node.point_coordinates.split(",");
-    
-    if (coords[1]>extremes.maxx) extremes.maxx=coords[1];
-    if (coords[1]<extremes.minx) extremes.minx=coords[1];
-    if (coords[0]>extremes.maxy) extremes.maxy=coords[0];
-    if (coords[0]<extremes.miny) extremes.miny=coords[0];
+    var x=coords[1];
+    var y=coords[0];
 
-    var marker = L.marker([coords[1], coords[0]], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
+    if (extremes.maxx===undefined)
+    {
+	extremes.maxx=x;
+        extremes.minx=x;
+        extremes.maxy=y;
+        extremes.miny=y;
+    else
+    { 
+        if (x>extremes.maxx) extremes.maxx=x;
+    	if (x<extremes.minx) extremes.minx=x;
+    	if (y>extremes.maxy) extremes.maxy=y;
+    	if (y<extremes.miny) extremes.miny=y;
+    }
+
+    var marker = L.marker(x, y, {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
     Marble.map.markers.push(marker);
 }
 
