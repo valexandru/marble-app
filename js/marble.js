@@ -438,6 +438,7 @@ function displayPlacemark(node, colorId, extremes) {
         extremes.minx=x;
         extremes.maxy=y;
         extremes.miny=y;
+    }
     else
     { 
         if (x>extremes.maxx) extremes.maxx=x;
