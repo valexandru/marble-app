@@ -447,7 +447,7 @@ function displayPlacemark(node, colorId, extremes) {
     	if (y<extremes.miny) extremes.miny=y;
     }
 
-    var marker = L.marker(x, y, {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
+    var marker = L.marker([x, y], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
     Marble.map.markers.push(marker);
 }
 
