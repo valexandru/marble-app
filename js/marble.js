@@ -114,7 +114,8 @@ Marble.Data.Routes = (function() {
 })();
 
 Marble.Data.Bookmarks = (function() {
-    return {
+	
+	return {
         get: function(callback) {
             $.getJSON("bookmarks/json", function(jsonData) {
                 callback.call(undefined, jsonData.data);
@@ -426,29 +427,40 @@ Marble.Engine = new Transitional({
     }
 });
 
-function displayPlacemark(node, colorId) {
+function displayPlacemark(node, colorId, extremes) {
     var coords = node.point_coordinates.split(",");
+    
+    if (coords[1]>extremes.maxx) extremes.maxx=coords[1];
+    if (coords[1]<extremes.minx) extremes.minx=coords[1];
+    if (coords[0]>extremes.maxy) extremes.maxy=coords[0];
+    if (coords[0]<extremes.miny) extremes.miny=coords[0];
+
     var marker = L.marker([coords[1], coords[0]], {icon: Marble.Util.icons[colorId]}).addTo(Marble.map);
     Marble.map.markers.push(marker);
 }
 
-function displayFolder(node, colorId) {
+function displayFolder(node, colorId, extremes) {
     for (var i=0, len=node.children.length; i<len; i++) {
         if (node.children[i].is_folder) {
-            displayFolder(node.children[i], colorId);
+            displayFolder(node.children[i], colorId, extremes);
         } else {
-            displayPlacemark(node.children[i], colorId);
+            displayPlacemark(node.children[i], colorId, extremes);
         }
     }
 }
 
 function displayNode(node) {
     var colorId;
+    var extremes={maxx: undefined, minx: undefined, maxy: undefined ,miny: undefined}; 
     if (node.is_folder) {
         colorId = Marble.Util.hash(node.name) % 13;
-        displayFolder(node, colorId);
+        displayFolder(node, colorId, extremes);
     } else {
         colorId = node.parent.name ? Marble.Util.hash(node.parent.name) % 13 : 12;
-        displayPlacemark(node, colorId);
+        displayPlacemark(node, colorId, extremes);
     }
+   map.fitBounds([
+       [extremes.minx, extremes.miny],
+       [extremes.maxx, extremes.maxy]
+   ]);
 }
